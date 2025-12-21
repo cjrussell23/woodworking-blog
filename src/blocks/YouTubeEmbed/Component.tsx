@@ -3,7 +3,7 @@ import React from 'react'
 export type YouTubeEmbedBlockProps = {
   videoId: string
   title?: string | null
-  aspectRatio?: '16:9' | '4:3' | '1:1' | null
+  aspectRatio?: '16:9' | '4:3' | '1:1' | '9:16' | '4:5' | null
   autoplay?: boolean | null
   controls?: boolean | null
   loop?: boolean | null
@@ -23,6 +23,8 @@ const aspectRatioStyles = {
   '16:9': 'aspect-video',
   '4:3': 'aspect-[4/3]',
   '1:1': 'aspect-square',
+  '9:16': 'aspect-[9/16]',
+  '4:5': 'aspect-[4/5]',
 }
 
 export const YouTubeEmbedBlock: React.FC<Props> = ({

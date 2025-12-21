@@ -40,6 +40,14 @@ export const YouTubeEmbed: Block = {
           label: '1:1 (Square)',
           value: '1:1',
         },
+        {
+          label: '9:16 (Vertical/Portrait)',
+          value: '9:16',
+        },
+        {
+          label: '4:5 (Vertical)',
+          value: '4:5',
+        },
       ],
     },
     {

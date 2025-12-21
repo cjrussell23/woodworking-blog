@@ -793,7 +793,7 @@ export interface YouTubeEmbedBlock {
    * Optional title for accessibility
    */
   title?: string | null;
-  aspectRatio?: ('16:9' | '4:3' | '1:1') | null;
+  aspectRatio?: ('16:9' | '4:3' | '1:1' | '9:16' | '4:5') | null;
   /**
    * Video will play automatically when loaded (muted)
    */
