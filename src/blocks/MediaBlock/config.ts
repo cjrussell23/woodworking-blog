@@ -10,5 +10,30 @@ export const MediaBlock: Block = {
       relationTo: 'media',
       required: true,
     },
+    {
+      name: 'displayInline',
+      type: 'checkbox',
+      label: 'Display Inline (allows text to wrap around image)',
+      defaultValue: false,
+      admin: {
+        description: 'When enabled, the image will float and allow text to wrap around it.',
+      },
+    },
+    {
+      name: 'width',
+      type: 'number',
+      label: 'Custom Width (in pixels)',
+      admin: {
+        description: 'Leave empty to use the original image width.',
+      },
+    },
+    {
+      name: 'height',
+      type: 'number',
+      label: 'Custom Height (in pixels)',
+      admin: {
+        description: 'Leave empty to use the original image height.',
+      },
+    },
   ],
 }

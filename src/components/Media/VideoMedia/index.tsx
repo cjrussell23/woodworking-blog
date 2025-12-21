@@ -8,7 +8,7 @@ import type { Props as MediaProps } from '../types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 
 export const VideoMedia: React.FC<MediaProps> = (props) => {
-  const { onClick, resource, videoClassName } = props
+  const { onClick, resource, videoClassName, customWidth, customHeight } = props
 
   const videoRef = useRef<HTMLVideoElement>(null)
   // const [showFallback] = useState<boolean>()
@@ -26,6 +26,14 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
   if (resource && typeof resource === 'object') {
     const { url, updatedAt } = resource
 
+    const style: React.CSSProperties = {}
+    if (customWidth) {
+      style.width = `${customWidth}px`
+    }
+    if (customHeight) {
+      style.height = `${customHeight}px`
+    }
+
     return (
       <video
         autoPlay
@@ -36,6 +44,7 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
         onClick={onClick}
         playsInline
         ref={videoRef}
+        style={Object.keys(style).length > 0 ? style : undefined}
       >
         <source src={getMediaUrl(url, updatedAt)} />
       </video>

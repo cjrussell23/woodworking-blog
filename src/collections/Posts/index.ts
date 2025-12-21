@@ -13,6 +13,7 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
+import { Layout } from '../../blocks/Layout/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { YouTubeEmbed } from '../../blocks/YouTubeEmbed/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -90,7 +91,7 @@ export const Posts: CollectionConfig<'posts'> = {
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock, YouTubeEmbed] }),
+                    BlocksFeature({ blocks: [Banner, Code, Layout, MediaBlock, YouTubeEmbed] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),

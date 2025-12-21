@@ -401,6 +401,7 @@ export interface Category {
    */
   generateSlug?: boolean | null;
   slug: string;
+  image?: (number | null) | Media;
   parent?: (number | null) | Category;
   breadcrumbs?:
     | {
@@ -542,6 +543,18 @@ export interface ContentBlock {
  */
 export interface MediaBlock {
   media: number | Media;
+  /**
+   * When enabled, the image will float and allow text to wrap around it.
+   */
+  displayInline?: boolean | null;
+  /**
+   * Leave empty to use the original image width.
+   */
+  width?: number | null;
+  /**
+   * Leave empty to use the original image height.
+   */
+  height?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -1211,6 +1224,9 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  displayInline?: T;
+  width?: T;
+  height?: T;
   id?: T;
   blockName?: T;
 }
@@ -1391,6 +1407,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   generateSlug?: T;
   slug?: T;
+  image?: T;
   parent?: T;
   breadcrumbs?:
     | T
@@ -1862,6 +1879,47 @@ export interface CodeBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'code';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LayoutBlock".
+ */
+export interface LayoutBlock {
+  height?: ('auto' | 'small' | 'medium' | 'large' | 'xl') | null;
+  /**
+   * Break out of the container to span the full viewport width
+   */
+  fullWidth?: boolean | null;
+  columns?:
+    | {
+        size?: ('equal' | 'oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        contentType: 'richText' | 'youtubeVideo' | 'media';
+        media?: (number | null) | Media;
+        /**
+         * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+         */
+        videoId?: string | null;
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'layout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

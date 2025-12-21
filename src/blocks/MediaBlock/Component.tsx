@@ -1,8 +1,8 @@
 import type { StaticImageData } from 'next/image'
 
+import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import React from 'react'
-import RichText from '@/components/RichText'
 
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
@@ -27,6 +27,9 @@ export const MediaBlock: React.FC<Props> = (props) => {
     media,
     staticImage,
     disableInnerContainer,
+    displayInline,
+    width,
+    height,
   } = props
 
   let caption
@@ -38,15 +41,26 @@ export const MediaBlock: React.FC<Props> = (props) => {
         '',
         {
           container: enableGutter,
+          'float-left mr-4 mb-2': displayInline,
         },
         className,
       )}
+      style={
+        displayInline && (width || height)
+          ? {
+              width: width ? `${width}px` : undefined,
+              height: height ? `${height}px` : undefined,
+            }
+          : undefined
+      }
     >
       {(media || staticImage) && (
         <Media
           imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
           resource={media}
           src={staticImage}
+          customWidth={width}
+          customHeight={height}
         />
       )}
       {caption && (

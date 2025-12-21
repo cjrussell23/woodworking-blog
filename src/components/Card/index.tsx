@@ -2,7 +2,7 @@
 import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import type { Post } from '@/payload-types'
 
@@ -32,42 +32,20 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
+        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer flex flex-col hover:border-accent',
         className,
       )}
       ref={card.ref}
     >
-      <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
-      </div>
-      <div className="p-4">
-        {showCategories && hasCategories && (
-          <div className="uppercase text-sm mb-4">
-            {showCategories && hasCategories && (
-              <div>
-                {categories?.map((category, index) => {
-                  if (typeof category === 'object') {
-                    const { title: titleFromCategory } = category
-
-                    const categoryTitle = titleFromCategory || 'Untitled category'
-
-                    const isLast = index === categories.length - 1
-
-                    return (
-                      <Fragment key={index}>
-                        {categoryTitle}
-                        {!isLast && <Fragment>, &nbsp;</Fragment>}
-                      </Fragment>
-                    )
-                  }
-
-                  return null
-                })}
-              </div>
-            )}
-          </div>
+      <div className="relative w-full aspect-video bg-black">
+        {!metaImage && (
+          <div className="flex items-center justify-center h-full text-gray-400">No image</div>
         )}
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media resource={metaImage} size="33vw" fill imgClassName="object-cover" />
+        )}
+      </div>
+      <div className="p-4 pb-1 flex flex-col flex-1">
         {titleToUse && (
           <div className="prose">
             <h3>
@@ -78,6 +56,30 @@ export const Card: React.FC<{
           </div>
         )}
         {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}
+        {showCategories && hasCategories && (
+          <div className="text-sm mt-auto pt-4">
+            {showCategories && hasCategories && (
+              <div>
+                {categories?.map((category, index) => {
+                  if (typeof category === 'object') {
+                    const categoryHref = `/categories/${category.slug}`
+                    return (
+                      <Link
+                        key={index}
+                        href={categoryHref}
+                        className="border text-xs rounded-full bg-secondary border-border w-fit px-3 py-1 inline-block mr-2 mb-2 hover:bg-accent hover:text-white transition-colors"
+                      >
+                        {category.title}
+                      </Link>
+                    )
+                  }
+
+                  return null
+                })}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </article>
   )

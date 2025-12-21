@@ -28,6 +28,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     size: sizeFromProps,
     src: srcFromProps,
     loading: loadingFromProps,
+    customWidth,
+    customHeight,
   } = props
 
   let width: number | undefined
@@ -47,6 +49,14 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     src = getMediaUrl(url, cacheTag)
   }
 
+  // Override with custom dimensions if provided
+  if (customWidth) {
+    width = customWidth
+  }
+  if (customHeight) {
+    height = customHeight
+  }
+
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
@@ -57,7 +67,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .join(', ')
 
   return (
-    <picture className={cn(pictureClassName)}>
+    <picture className={cn(pictureClassName, 'm-0')}>
       <NextImage
         alt={alt || ''}
         className={cn(imgClassName)}
