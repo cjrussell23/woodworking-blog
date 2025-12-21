@@ -39,6 +39,38 @@ export const hero: Field = {
       required: true,
     },
     {
+      name: 'textColor',
+      type: 'select',
+      defaultValue: 'default',
+      label: 'Text Color',
+      options: [
+        {
+          label: 'Default',
+          value: 'default',
+        },
+        {
+          label: 'Light',
+          value: 'light',
+        },
+        {
+          label: 'Dark',
+          value: 'dark',
+        },
+        {
+          label: 'Primary',
+          value: 'primary',
+        },
+        {
+          label: 'Secondary',
+          value: 'secondary',
+        },
+        {
+          label: 'Accent',
+          value: 'accent',
+        },
+      ],
+    },
+    {
       name: 'richText',
       type: 'richText',
       editor: lexicalEditor({
