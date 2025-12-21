@@ -201,7 +201,7 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | YouTubeEmbedBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -782,6 +782,24 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YouTubeEmbedBlock".
+ */
+export interface YouTubeEmbedBlock {
+  /**
+   * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+   */
+  videoId: string;
+  /**
+   * Optional title for accessibility
+   */
+  title?: string | null;
+  aspectRatio?: ('16:9' | '4:3' | '1:1') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'youtubeEmbed';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1089,6 +1107,7 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        youtubeEmbed?: T | YouTubeEmbedBlockSelect<T>;
       };
   meta?:
     | T
@@ -1185,6 +1204,17 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YouTubeEmbedBlock_select".
+ */
+export interface YouTubeEmbedBlockSelect<T extends boolean = true> {
+  videoId?: T;
+  title?: T;
+  aspectRatio?: T;
   id?: T;
   blockName?: T;
 }
