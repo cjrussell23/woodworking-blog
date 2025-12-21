@@ -4,6 +4,14 @@ export type YouTubeEmbedBlockProps = {
   videoId: string
   title?: string | null
   aspectRatio?: '16:9' | '4:3' | '1:1' | null
+  autoplay?: boolean | null
+  controls?: boolean | null
+  loop?: boolean | null
+  mute?: boolean | null
+  modestBranding?: boolean | null
+  showRelatedVideos?: boolean | null
+  startTime?: number | null
+  endTime?: number | null
   blockType: 'youtubeEmbed'
 }
 
@@ -22,8 +30,32 @@ export const YouTubeEmbedBlock: React.FC<Props> = ({
   videoId,
   title = 'YouTube video player',
   aspectRatio = '16:9',
+  autoplay = false,
+  controls = true,
+  loop = false,
+  mute = false,
+  modestBranding = true,
+  showRelatedVideos = false,
+  startTime,
+  endTime,
 }) => {
-  const embedUrl = `https://www.youtube.com/embed/${videoId}`
+  // Build YouTube embed URL with parameters
+  const params = new URLSearchParams()
+
+  if (autoplay) params.append('autoplay', '1')
+  if (!controls) params.append('controls', '0')
+  if (loop) {
+    params.append('loop', '1')
+    params.append('playlist', videoId) // Required for loop to work
+  }
+  if (mute) params.append('mute', '1')
+  if (modestBranding) params.append('modestbranding', '1')
+  if (!showRelatedVideos) params.append('rel', '0')
+  if (startTime !== null && startTime !== undefined) params.append('start', String(startTime))
+  if (endTime !== null && endTime !== undefined) params.append('end', String(endTime))
+
+  const queryString = params.toString()
+  const embedUrl = `https://www.youtube.com/embed/${videoId}${queryString ? `?${queryString}` : ''}`
   const aspectRatioClass = aspectRatioStyles[aspectRatio || '16:9'] || aspectRatioStyles['16:9']
 
   return (

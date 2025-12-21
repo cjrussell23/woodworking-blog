@@ -42,5 +42,75 @@ export const YouTubeEmbed: Block = {
         },
       ],
     },
+    {
+      name: 'autoplay',
+      type: 'checkbox',
+      label: 'Autoplay',
+      defaultValue: false,
+      admin: {
+        description: 'Video will play automatically when loaded (muted)',
+      },
+    },
+    {
+      name: 'controls',
+      type: 'checkbox',
+      label: 'Show Controls',
+      defaultValue: true,
+      admin: {
+        description: 'Show player controls',
+      },
+    },
+    {
+      name: 'loop',
+      type: 'checkbox',
+      label: 'Loop Video',
+      defaultValue: false,
+      admin: {
+        description: 'Video will restart when it ends',
+      },
+    },
+    {
+      name: 'mute',
+      type: 'checkbox',
+      label: 'Mute',
+      defaultValue: false,
+      admin: {
+        description: 'Mute the video audio',
+      },
+    },
+    {
+      name: 'modestBranding',
+      type: 'checkbox',
+      label: 'Modest Branding',
+      defaultValue: true,
+      admin: {
+        description: 'Minimize YouTube branding',
+      },
+    },
+    {
+      name: 'showRelatedVideos',
+      type: 'checkbox',
+      label: 'Show Related Videos',
+      defaultValue: false,
+      admin: {
+        description: 'Show related videos at the end',
+      },
+    },
+    {
+      name: 'startTime',
+      type: 'number',
+      label: 'Start Time (seconds)',
+      admin: {
+        description: 'Start playback at specific time',
+      },
+    },
+    {
+      name: 'endTime',
+      type: 'number',
+      label: 'End Time (seconds)',
+      admin: {
+        description: 'End playback at specific time',
+      },
+    },
   ],
 }

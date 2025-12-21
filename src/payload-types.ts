@@ -794,6 +794,38 @@ export interface YouTubeEmbedBlock {
    */
   title?: string | null;
   aspectRatio?: ('16:9' | '4:3' | '1:1') | null;
+  /**
+   * Video will play automatically when loaded (muted)
+   */
+  autoplay?: boolean | null;
+  /**
+   * Show player controls
+   */
+  controls?: boolean | null;
+  /**
+   * Video will restart when it ends
+   */
+  loop?: boolean | null;
+  /**
+   * Mute the video audio
+   */
+  mute?: boolean | null;
+  /**
+   * Minimize YouTube branding
+   */
+  modestBranding?: boolean | null;
+  /**
+   * Show related videos at the end
+   */
+  showRelatedVideos?: boolean | null;
+  /**
+   * Start playback at specific time
+   */
+  startTime?: number | null;
+  /**
+   * End playback at specific time
+   */
+  endTime?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'youtubeEmbed';
@@ -1215,6 +1247,14 @@ export interface YouTubeEmbedBlockSelect<T extends boolean = true> {
   videoId?: T;
   title?: T;
   aspectRatio?: T;
+  autoplay?: T;
+  controls?: T;
+  loop?: T;
+  mute?: T;
+  modestBranding?: T;
+  showRelatedVideos?: T;
+  startTime?: T;
+  endTime?: T;
   id?: T;
   blockName?: T;
 }
