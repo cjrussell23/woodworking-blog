@@ -67,7 +67,18 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .join(', ')
 
   return (
-    <picture className={cn(pictureClassName, 'm-0')}>
+    <picture
+      className={cn(pictureClassName, 'm-0')}
+      style={
+        customWidth || customHeight
+          ? {
+              width: customWidth ? `${customWidth}px` : undefined,
+              height: customHeight ? `${customHeight}px` : undefined,
+              display: 'block',
+            }
+          : undefined
+      }
+    >
       <NextImage
         alt={alt || ''}
         className={cn(imgClassName)}

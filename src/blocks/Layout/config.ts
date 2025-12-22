@@ -9,33 +9,6 @@ import {
 
 const columnFields: Field[] = [
   {
-    name: 'size',
-    type: 'select',
-    defaultValue: 'equal',
-    options: [
-      {
-        label: 'Equal',
-        value: 'equal',
-      },
-      {
-        label: 'One Third',
-        value: 'oneThird',
-      },
-      {
-        label: 'Half',
-        value: 'half',
-      },
-      {
-        label: 'Two Thirds',
-        value: 'twoThirds',
-      },
-      {
-        label: 'Full',
-        value: 'full',
-      },
-    ],
-  },
-  {
     name: 'contentType',
     type: 'select',
     defaultValue: 'richText',
@@ -61,6 +34,24 @@ const columnFields: Field[] = [
     relationTo: 'media',
     admin: {
       condition: (_data, siblingData) => siblingData?.contentType === 'media',
+    },
+  },
+  {
+    name: 'width',
+    type: 'number',
+    label: 'Custom Width (in pixels)',
+    admin: {
+      condition: (_data, siblingData) => siblingData?.contentType === 'media',
+      description: 'Leave empty to use the original image width.',
+    },
+  },
+  {
+    name: 'height',
+    type: 'number',
+    label: 'Custom Height (in pixels)',
+    admin: {
+      condition: (_data, siblingData) => siblingData?.contentType === 'media',
+      description: 'Leave empty to use the original image height.',
     },
   },
   {
@@ -98,39 +89,125 @@ export const Layout: Block = {
   interfaceName: 'LayoutBlock',
   fields: [
     {
-      name: 'height',
-      type: 'select',
-      defaultValue: 'auto',
-      options: [
-        {
-          label: 'Auto',
-          value: 'auto',
-        },
-        {
-          label: 'Small (300px)',
-          value: 'small',
-        },
-        {
-          label: 'Medium (500px)',
-          value: 'medium',
-        },
-        {
-          label: 'Large (700px)',
-          value: 'large',
-        },
-        {
-          label: 'Extra Large (900px)',
-          value: 'xl',
-        },
-      ],
-    },
-    {
       name: 'fullWidth',
       type: 'checkbox',
       label: 'Full Width',
       defaultValue: false,
       admin: {
         description: 'Break out of the container to span the full viewport width',
+      },
+    },
+    {
+      name: 'direction',
+      type: 'select',
+      defaultValue: 'row',
+      options: [
+        {
+          label: 'Row (Horizontal)',
+          value: 'row',
+        },
+        {
+          label: 'Column (Vertical)',
+          value: 'column',
+        },
+      ],
+      admin: {
+        description: 'Direction of the flex container',
+      },
+    },
+    {
+      name: 'justifyContent',
+      type: 'select',
+      defaultValue: 'start',
+      options: [
+        {
+          label: 'Start',
+          value: 'start',
+        },
+        {
+          label: 'Center',
+          value: 'center',
+        },
+        {
+          label: 'End',
+          value: 'end',
+        },
+        {
+          label: 'Space Between',
+          value: 'between',
+        },
+        {
+          label: 'Space Around',
+          value: 'around',
+        },
+        {
+          label: 'Space Evenly',
+          value: 'evenly',
+        },
+      ],
+      admin: {
+        description: 'Horizontal alignment of items',
+      },
+    },
+    {
+      name: 'alignItems',
+      type: 'select',
+      defaultValue: 'stretch',
+      options: [
+        {
+          label: 'Start',
+          value: 'start',
+        },
+        {
+          label: 'Center',
+          value: 'center',
+        },
+        {
+          label: 'End',
+          value: 'end',
+        },
+        {
+          label: 'Stretch',
+          value: 'stretch',
+        },
+      ],
+      admin: {
+        description: 'Vertical alignment of items',
+      },
+    },
+    {
+      name: 'wrap',
+      type: 'checkbox',
+      label: 'Wrap Items',
+      defaultValue: true,
+      admin: {
+        description: 'Allow items to wrap to the next line',
+      },
+    },
+    {
+      name: 'gap',
+      type: 'select',
+      defaultValue: 'medium',
+      options: [
+        {
+          label: 'None',
+          value: 'none',
+        },
+        {
+          label: 'Small',
+          value: 'small',
+        },
+        {
+          label: 'Medium',
+          value: 'medium',
+        },
+        {
+          label: 'Large',
+          value: 'large',
+        },
+      ],
+      admin: {
+        description: 'Spacing between items',
       },
     },
     {

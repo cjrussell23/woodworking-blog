@@ -1878,16 +1878,42 @@ export interface CodeBlock {
  * via the `definition` "LayoutBlock".
  */
 export interface LayoutBlock {
-  height?: ('auto' | 'small' | 'medium' | 'large' | 'xl') | null;
   /**
    * Break out of the container to span the full viewport width
    */
   fullWidth?: boolean | null;
+  /**
+   * Direction of the flex container
+   */
+  direction?: ('row' | 'column') | null;
+  /**
+   * Horizontal alignment of items
+   */
+  justifyContent?: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly') | null;
+  /**
+   * Vertical alignment of items
+   */
+  alignItems?: ('start' | 'center' | 'end' | 'stretch') | null;
+  /**
+   * Allow items to wrap to the next line
+   */
+  wrap?: boolean | null;
+  /**
+   * Spacing between items
+   */
+  gap?: ('none' | 'small' | 'medium' | 'large') | null;
   columns?:
     | {
-        size?: ('equal' | 'oneThird' | 'half' | 'twoThirds' | 'full') | null;
         contentType: 'richText' | 'youtubeVideo' | 'media';
         media?: (number | null) | Media;
+        /**
+         * Leave empty to use the original image width.
+         */
+        width?: number | null;
+        /**
+         * Leave empty to use the original image height.
+         */
+        height?: number | null;
         /**
          * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
          */
