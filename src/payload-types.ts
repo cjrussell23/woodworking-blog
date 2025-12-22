@@ -535,6 +535,10 @@ export interface MediaBlock {
    */
   displayInline?: boolean | null;
   /**
+   * Choose which side the image should appear on.
+   */
+  position?: ('left' | 'right') | null;
+  /**
    * Leave empty to use the original image width.
    */
   width?: number | null;
@@ -1213,6 +1217,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
   displayInline?: T;
+  position?: T;
   width?: T;
   height?: T;
   id?: T;

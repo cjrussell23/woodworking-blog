@@ -28,6 +28,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
     staticImage,
     disableInnerContainer,
     displayInline,
+    position = 'left',
     width,
     height,
   } = props
@@ -41,7 +42,8 @@ export const MediaBlock: React.FC<Props> = (props) => {
         '',
         {
           container: enableGutter,
-          'float-left mr-4 mb-2': displayInline,
+          'float-left mr-4 mb-2': displayInline && position === 'left',
+          'float-right ml-4 mb-2': displayInline && position === 'right',
         },
         className,
       )}

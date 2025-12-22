@@ -20,6 +20,26 @@ export const MediaBlock: Block = {
       },
     },
     {
+      name: 'position',
+      type: 'select',
+      label: 'Position',
+      defaultValue: 'left',
+      options: [
+        {
+          label: 'Left',
+          value: 'left',
+        },
+        {
+          label: 'Right',
+          value: 'right',
+        },
+      ],
+      admin: {
+        condition: (data) => data.displayInline === true,
+        description: 'Choose which side the image should appear on.',
+      },
+    },
+    {
       name: 'width',
       type: 'number',
       label: 'Custom Width (in pixels)',
