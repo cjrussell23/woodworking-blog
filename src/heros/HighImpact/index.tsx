@@ -5,11 +5,16 @@ import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import { getTextColorClass } from '../utils'
 
-export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText, textColor }) => {
+export const HighImpactHero: React.FC<Page['hero']> = ({
+  links,
+  media,
+  title,
+  subtitle,
+  textColor,
+}) => {
   return (
     <div
       className={cn(
@@ -19,7 +24,8 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText,
     >
       <div className="container mb-8 z-10 relative flex items-center justify-center">
         <div className="max-w-[36.5rem] md:text-center">
-          {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
+          {title && <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">{title}</h1>}
+          {subtitle && <p className="text-lg md:text-xl opacity-90 mb-6">{subtitle}</p>}
           {Array.isArray(links) && links.length > 0 && (
             <ul className="flex md:justify-center gap-4">
               {links.map(({ link }, i) => {

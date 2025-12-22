@@ -160,21 +160,8 @@ export interface Page {
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     textColor?: ('default' | 'light' | 'dark' | 'primary' | 'secondary' | 'accent') | null;
-    richText?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
+    title: string;
+    subtitle?: string | null;
     links?:
       | {
           link: {
@@ -1126,7 +1113,8 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         type?: T;
         textColor?: T;
-        richText?: T;
+        title?: T;
+        subtitle?: T;
         links?:
           | T
           | {

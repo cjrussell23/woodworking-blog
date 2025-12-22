@@ -1,9 +1,11 @@
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
-import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { defaultLexical } from '@/fields/defaultLexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -12,9 +14,7 @@ import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
-import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -60,7 +60,7 @@ export default buildConfig({
   editor: defaultLexical,
   db: vercelPostgresAdapter({
     pool: {
-      connectionString: process.env.POSTGRES_URL || '',
+      connectionString: `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}/${process.env.POSTGRES_DATABASE}?sslmode=${process.env.POSTGRES_SSLMODE || 'require'}${process.env.POSTGRES_CHANNELBINDING ? `&channel_binding=${process.env.POSTGRES_CHANNELBINDING}` : ''}`,
     },
   }),
   collections: [Pages, Posts, Media, Categories, Users],

@@ -2,26 +2,37 @@ import React from 'react'
 
 import type { Page } from '@/payload-types'
 
-import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import { getTextColorClass } from '../utils'
 
 type LowImpactHeroType =
   | {
       children?: React.ReactNode
-      richText?: never
+      title?: never
+      subtitle?: never
       textColor?: string
     }
-  | (Omit<Page['hero'], 'richText'> & {
+  | (Omit<Page['hero'], 'title' | 'subtitle'> & {
       children?: never
-      richText?: Page['hero']['richText']
+      title?: Page['hero']['title']
+      subtitle?: Page['hero']['subtitle']
     })
 
-export const LowImpactHero: React.FC<LowImpactHeroType> = ({ children, richText, textColor }) => {
+export const LowImpactHero: React.FC<LowImpactHeroType> = ({
+  children,
+  title,
+  subtitle,
+  textColor,
+}) => {
   return (
     <div className={cn('container mt-16', getTextColorClass(textColor))}>
       <div className="max-w-[48rem]">
-        {children || (richText && <RichText data={richText} enableGutter={false} />)}
+        {children || (
+          <>
+            {title && <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{title}</h1>}
+            {subtitle && <p className="text-lg md:text-xl opacity-90">{subtitle}</p>}
+          </>
+        )}
       </div>
     </div>
   )

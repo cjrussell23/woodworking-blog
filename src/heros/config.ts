@@ -1,12 +1,5 @@
 import type { Field } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-
 import { linkGroup } from '@/fields/linkGroup'
 
 export const hero: Field = {
@@ -71,23 +64,22 @@ export const hero: Field = {
       ],
     },
     {
-      name: 'richText',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
-      label: false,
+      name: 'title',
+      type: 'text',
+      required: true,
+      label: 'Title',
+    },
+    {
+      name: 'subtitle',
+      type: 'text',
+      label: 'Subtitle',
     },
     linkGroup({
       overrides: {
         maxRows: 2,
+        admin: {
+          condition: (_, { type } = {}) => !['mediumImpact'].includes(type),
+        },
       },
     }),
     {
