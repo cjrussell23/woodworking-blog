@@ -4,7 +4,8 @@ import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
 import NextImage from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import type { Props as MediaProps } from '../types'
 
@@ -30,18 +31,27 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     loading: loadingFromProps,
     customWidth,
     customHeight,
+    enableFullscreen = false,
   } = props
+
+  const [isFullScreen, setIsFullScreen] = useState(false)
 
   let width: number | undefined
   let height: number | undefined
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
 
+  // Store original dimensions before any custom overrides
+  let originalWidth: number | undefined
+  let originalHeight: number | undefined
+
   if (!src && resource && typeof resource === 'object') {
     const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
 
     width = fullWidth!
     height = fullHeight!
+    originalWidth = fullWidth!
+    originalHeight = fullHeight!
     alt = altFromResource || ''
 
     const cacheTag = resource.updatedAt
@@ -49,7 +59,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     src = getMediaUrl(url, cacheTag)
   }
 
-  // Override with custom dimensions if provided
+  // Override with custom dimensions if provided (for thumbnail display)
   if (customWidth) {
     width = customWidth
   }
@@ -66,33 +76,102 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
-  return (
-    <picture
-      className={cn(pictureClassName, 'm-0')}
-      style={
-        customWidth || customHeight
-          ? {
-              width: customWidth ? `${customWidth}px` : undefined,
-              height: customHeight ? `${customHeight}px` : undefined,
-              display: 'block',
-            }
-          : undefined
+  // Handle ESC key to close fullscreen
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullScreen) {
+        setIsFullScreen(false)
       }
-    >
-      <NextImage
-        alt={alt || ''}
-        className={cn(imgClassName)}
-        fill={fill}
-        height={!fill ? height : undefined}
-        placeholder="blur"
-        blurDataURL={placeholderBlur}
-        priority={priority}
-        quality={100}
-        loading={loading}
-        sizes={sizes}
-        src={src}
-        width={!fill ? width : undefined}
-      />
-    </picture>
+    }
+
+    if (isFullScreen) {
+      document.addEventListener('keydown', handleEscape)
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+    }
+  }, [isFullScreen])
+
+  // Only allow fullscreen if we have a valid src and it's enabled
+  const canShowFullscreen = enableFullscreen && Boolean(src)
+
+  return (
+    <>
+      <picture
+        className={cn(pictureClassName, 'm-0', canShowFullscreen && 'cursor-pointer')}
+        onClick={canShowFullscreen ? () => setIsFullScreen(true) : undefined}
+        style={
+          customWidth || customHeight
+            ? {
+                width: customWidth ? `${customWidth}px` : undefined,
+                height: customHeight ? `${customHeight}px` : undefined,
+                display: 'block',
+              }
+            : undefined
+        }
+      >
+        <NextImage
+          alt={alt || ''}
+          className={cn(imgClassName)}
+          fill={fill}
+          height={!fill ? height : undefined}
+          placeholder="blur"
+          blurDataURL={placeholderBlur}
+          priority={priority}
+          quality={100}
+          loading={loading}
+          sizes={sizes}
+          src={src}
+          width={!fill ? width : undefined}
+        />
+      </picture>
+
+      {/* Fullscreen Modal */}
+      {isFullScreen &&
+        canShowFullscreen &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95"
+            onClick={() => setIsFullScreen(false)}
+            style={{ margin: 0, padding: 0 }}
+          >
+            <button
+              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-[10000]"
+              onClick={() => setIsFullScreen(false)}
+              aria-label="Close fullscreen"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-8 h-8"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div
+              className="fixed inset-0 w-screen h-screen flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <NextImage
+                alt={alt || ''}
+                src={src}
+                width={originalWidth || width || 1920}
+                height={originalHeight || height || 1080}
+                className="w-full h-full object-contain"
+                quality={100}
+                priority
+              />
+            </div>
+          </div>,
+          document.body,
+        )}
+    </>
   )
 }

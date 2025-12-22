@@ -21,4 +21,5 @@ export interface Props {
   videoClassName?: string
   customWidth?: number | null // custom width in pixels
   customHeight?: number | null // custom height in pixels
+  enableFullscreen?: boolean // enable fullscreen modal on click
 }

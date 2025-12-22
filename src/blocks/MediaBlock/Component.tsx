@@ -63,6 +63,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
           src={staticImage}
           customWidth={width}
           customHeight={height}
+          enableFullscreen={true}
         />
       )}
       {caption && (

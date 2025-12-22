@@ -58,6 +58,7 @@ export const LayoutBlock: React.FC<LayoutBlockProps> = (props) => {
                     resource={media}
                     customWidth={width}
                     customHeight={height}
+                    enableFullscreen={true}
                   />
                 )}
                 {contentType === 'youtubeVideo' && videoId && (
