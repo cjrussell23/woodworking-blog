@@ -4,7 +4,9 @@ node_modules
 .DS_Store
 .env
 .next
+.env.*
 .vercel
+package-lock.json
 
 # Payload default media upload directory
 public/media/
