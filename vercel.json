@@ -1,5 +1,4 @@
 {
-  "buildCommand": "payload migrate --force && npm run build && npm run postbuild",
   "crons": [
     {
       "path": "/api/payload-jobs/run",
