@@ -1,0 +1,11 @@
+- Related Posts need to be smaller, should be 5 in a row.
+- Images in a layout need to have lightbox functionality.
+- Add post date to post cards.
+- Fix spacing of categories on post cards.
+- Improve image selection UI when adding images to a post.
+- Fix Image cropping.
+- Add text shadow to header nav when scroll top.
+- Use smaller image for post cards on archives.
+- Home page title
+- Fix robots.txt
+- Compress images during upload (convert to webp)
