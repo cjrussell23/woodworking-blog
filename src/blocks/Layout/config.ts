@@ -179,7 +179,7 @@ export const Layout: Block = {
       name: 'wrap',
       type: 'checkbox',
       label: 'Wrap Items',
-      defaultValue: true,
+      defaultValue: false,
       admin: {
         description: 'Allow items to wrap to the next line',
       },
