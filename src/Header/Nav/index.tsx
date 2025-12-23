@@ -92,6 +92,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; isScrolled: boolean }> = ({
               {navItems.map(({ link }, i) => {
                 return (
                   <CMSLink
+                    onClick={() => setIsMobileMenuOpen(false)}
                     key={i}
                     {...link}
                     appearance="link"
