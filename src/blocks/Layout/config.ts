@@ -89,15 +89,6 @@ export const Layout: Block = {
   interfaceName: 'LayoutBlock',
   fields: [
     {
-      name: 'fullWidth',
-      type: 'checkbox',
-      label: 'Full Width',
-      defaultValue: false,
-      admin: {
-        description: 'Break out of the container to span the full viewport width',
-      },
-    },
-    {
       name: 'direction',
       type: 'select',
       defaultValue: 'row',

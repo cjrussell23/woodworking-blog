@@ -835,10 +835,6 @@ export interface YouTubeEmbedBlock {
  */
 export interface LayoutBlock {
   /**
-   * Break out of the container to span the full viewport width
-   */
-  fullWidth?: boolean | null;
-  /**
    * Direction of the flex container
    */
   direction?: ('row' | 'column') | null;
@@ -1349,7 +1345,6 @@ export interface YouTubeEmbedBlockSelect<T extends boolean = true> {
  * via the `definition` "LayoutBlock_select".
  */
 export interface LayoutBlockSelect<T extends boolean = true> {
-  fullWidth?: T;
   direction?: T;
   justifyContent?: T;
   alignItems?: T;

@@ -16,7 +16,7 @@ export const LayoutBlock: React.FC<
     isPage: boolean
   }
 > = (props) => {
-  const { columns, fullWidth, direction, justifyContent, alignItems, wrap, gap, isPage } = props
+  const { columns, direction, justifyContent, alignItems, wrap, gap, isPage } = props
   const [fullscreenImageIndex, setFullscreenImageIndex] = useState<number | null>(null)
 
   const gapClasses = {
@@ -47,15 +47,7 @@ export const LayoutBlock: React.FC<
   }, [fullscreenImageIndex])
 
   return (
-    <div
-      className={
-        isPage
-          ? 'container'
-          : cn('my-4', {
-              'w-screen relative left-1/2 -translate-x-1/2': fullWidth,
-            })
-      }
-    >
+    <div className={isPage ? 'container' : 'my-4'}>
       <div
         className={cn(
           'flex',
@@ -74,7 +66,6 @@ export const LayoutBlock: React.FC<
             'items-center': alignItems === 'center',
             'items-end': alignItems === 'end',
             'items-stretch': alignItems === 'stretch',
-            'px-4 md:px-8': fullWidth,
           },
           gapClasses[gap || 'medium'],
         )}
