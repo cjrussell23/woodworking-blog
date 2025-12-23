@@ -35,7 +35,9 @@ export const MediaBlock: Block = {
         },
       ],
       admin: {
-        condition: (data) => data.displayInline === true,
+        condition: (_, siblingData) => {
+          return siblingData.displayInline === true
+        },
         description: 'Choose which side the image should appear on.',
       },
     },
