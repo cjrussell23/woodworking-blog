@@ -160,22 +160,6 @@ export interface Page {
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     textColor?: ('default' | 'light' | 'dark' | 'primary' | 'secondary' | 'accent') | null;
-    /**
-     * Control which part of the image is visible when using object-cover
-     */
-    imagePosition?:
-      | (
-          | 'top-left'
-          | 'top-center'
-          | 'top-right'
-          | 'center-left'
-          | 'center'
-          | 'center-right'
-          | 'bottom-left'
-          | 'bottom-center'
-          | 'bottom-right'
-        )
-      | null;
     title: string;
     subtitle?: string | null;
     links?:
@@ -250,22 +234,6 @@ export interface Post {
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     textColor?: ('default' | 'light' | 'dark' | 'primary' | 'secondary' | 'accent') | null;
-    /**
-     * Control which part of the image is visible when using object-cover
-     */
-    imagePosition?:
-      | (
-          | 'top-left'
-          | 'top-center'
-          | 'top-right'
-          | 'center-left'
-          | 'center'
-          | 'center-right'
-          | 'bottom-left'
-          | 'bottom-center'
-          | 'bottom-right'
-        )
-      | null;
     title?: string | null;
     subtitle?: string | null;
     links?:
@@ -559,11 +527,7 @@ export interface ContentBlock {
  * via the `definition` "ImageGallery".
  */
 export interface ImageGallery {
-  images: {
-    image: number | Media;
-    caption?: string | null;
-    id?: string | null;
-  }[];
+  images: (number | Media)[];
   displayMode: 'grid' | 'carousel';
   /**
    * Number of columns in the grid layout.
@@ -1198,7 +1162,6 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         type?: T;
         textColor?: T;
-        imagePosition?: T;
         title?: T;
         subtitle?: T;
         links?:
@@ -1311,13 +1274,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
  * via the `definition` "ImageGallery_select".
  */
 export interface ImageGallerySelect<T extends boolean = true> {
-  images?:
-    | T
-    | {
-        image?: T;
-        caption?: T;
-        id?: T;
-      };
+  images?: T;
   displayMode?: T;
   gridColumns?: T;
   aspectRatio?: T;
@@ -1407,7 +1364,6 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         type?: T;
         textColor?: T;
-        imagePosition?: T;
         title?: T;
         subtitle?: T;
         links?:

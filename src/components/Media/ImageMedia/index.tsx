@@ -16,7 +16,7 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
   const {
     alt: altFromProps,
     fill,
-    pictureClassName,
+    className,
     imgClassName,
     priority,
     resource,
@@ -31,9 +31,17 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
   let height: number | undefined
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
+  let objectPosition: string | undefined
 
   if (!src && resource && typeof resource === 'object') {
-    const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
+    const {
+      alt: altFromResource,
+      height: fullHeight,
+      url,
+      width: fullWidth,
+      focalX,
+      focalY,
+    } = resource
 
     width = fullWidth!
     height = fullHeight!
@@ -42,6 +50,11 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
     const cacheTag = resource.updatedAt
 
     src = getMediaUrl(url, cacheTag)
+
+    // Use focal point for object position if available
+    if (focalX !== undefined && focalY !== undefined) {
+      objectPosition = `${focalX}% ${focalY}%`
+    }
   }
 
   // Override with custom dimensions if provided (for thumbnail display)
@@ -56,7 +69,7 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
 
   return (
     <picture
-      className={cn(pictureClassName, 'm-0')}
+      className={cn(className, 'm-0 size-full')}
       onClick={onClick}
       style={
         customWidth || customHeight
@@ -71,8 +84,11 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
     >
       <NextImage
         alt={alt || ''}
-        className={cn(imgClassName)}
-        style={customWidth || customHeight ? { maxWidth: '100%', height: 'auto' } : undefined}
+        className={cn('object-cover size-full', imgClassName)}
+        style={{
+          ...(customWidth || customHeight ? { maxWidth: '100%', height: 'auto' } : {}),
+          ...(objectPosition ? { objectPosition } : {}),
+        }}
         fill={fill}
         height={!fill ? height : undefined}
         placeholder="blur"

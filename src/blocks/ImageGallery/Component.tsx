@@ -1,6 +1,8 @@
 'use client'
 
 import { ImageMedia } from '@/components/Media'
+import RichText from '@/components/RichText'
+
 import type { ImageGallery as ImageGalleryProps } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
@@ -88,7 +90,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
             {images.map((item, index) => {
-              const image = typeof item.image === 'object' ? item.image : null
+              const image = typeof item === 'object' ? item : null
               return (
                 <div key={index} className="w-full flex-shrink-0">
                   <div
@@ -100,14 +102,13 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                     onClick={() => handleLightboxOpen(index)}
                   >
                     {image && (
-                      <ImageMedia
-                        resource={image}
-                        imgClassName="object-cover w-full h-full border border-border rounded-lg"
-                      />
+                      <ImageMedia resource={image} imgClassName="border border-border rounded-lg" />
                     )}
                   </div>
-                  {item.caption && (
-                    <p className="mt-2 text-center text-sm text-muted-foreground">{item.caption}</p>
+                  {image?.caption && (
+                    <div className="mt-2 text-center text-sm text-muted-foreground">
+                      <RichText data={image.caption} enableGutter={false} />
+                    </div>
                   )}
                 </div>
               )
@@ -158,7 +159,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
     <>
       <div className={cn('grid', gridColClass, gapClass, className)}>
         {images.map((item, index) => {
-          const image = typeof item.image === 'object' ? item.image : null
+          const image = typeof item === 'object' ? item : null
           return (
             <div key={index} className="flex flex-col">
               <div
@@ -169,9 +170,13 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                 )}
                 onClick={() => handleLightboxOpen(index)}
               >
-                {image && <ImageMedia resource={image} imgClassName="object-cover" />}
+                {image && <ImageMedia resource={image} />}
               </div>
-              {item.caption && <p className="mt-2 text-sm text-muted-foreground">{item.caption}</p>}
+              {image?.caption && (
+                <div className="mt-2 text-sm text-muted-foreground">
+                  <RichText data={image.caption} enableGutter={false} />
+                </div>
+              )}
             </div>
           )
         })}
@@ -195,7 +200,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
             <div className="relative max-w-7xl max-h-full" onClick={(e) => e.stopPropagation()}>
               {(() => {
                 const item = images[lightboxIndex]
-                const image = typeof item.image === 'object' ? item.image : null
+                const image = typeof item === 'object' ? item : null
                 return (
                   <>
                     {image && (
@@ -204,7 +209,11 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                         imgClassName="max-w-full max-h-[90vh] object-cover"
                       />
                     )}
-                    {item.caption && <p className="mt-4 text-center text-white">{item.caption}</p>}
+                    {image?.caption && (
+                      <div className="mt-4 text-center text-white">
+                        <RichText data={image.caption} enableGutter={false} />
+                      </div>
+                    )}
                   </>
                 )
               })()}

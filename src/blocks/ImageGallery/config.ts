@@ -6,23 +6,11 @@ export const ImageGallery: Block = {
   fields: [
     {
       name: 'images',
-      type: 'array',
+      type: 'upload',
+      relationTo: 'media',
       label: 'Images',
       required: true,
-      minRows: 1,
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-        },
-        {
-          name: 'caption',
-          type: 'text',
-          label: 'Caption',
-        },
-      ],
+      hasMany: true,
     },
     {
       name: 'displayMode',

@@ -104,7 +104,7 @@ export const ImageBlock: React.FC<Props> = (props) => {
         {(media || staticImage) && (
           <ImageMedia
             imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-            pictureClassName={canShowFullscreen ? 'cursor-pointer' : undefined}
+            className={canShowFullscreen ? 'cursor-pointer' : undefined}
             resource={media}
             src={staticImage}
             customWidth={width}

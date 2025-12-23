@@ -2,7 +2,7 @@ import { ImageMedia } from '@/components/Media'
 import type { Page } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import React from 'react'
-import { getObjectPositionClass, getTextColorClass } from '../utils'
+import { getTextColorClass } from '../utils'
 
 export const MediumImpactHero: React.FC<Page['hero']> = ({
   media,
@@ -11,7 +11,6 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
   textColor,
   blur,
   overlay,
-  imagePosition,
 }) => {
   return (
     <div
@@ -36,12 +35,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
       </div>
       <div className="min-h-[40vh] select-none">
         {media && typeof media === 'object' && (
-          <ImageMedia
-            fill
-            imgClassName={cn('-z-10 object-cover', getObjectPositionClass(imagePosition))}
-            priority
-            resource={media}
-          />
+          <ImageMedia fill imgClassName={'-z-10'} priority resource={media} />
         )}
         {/* Blur overlay */}
         {blur?.enabled !== false && (

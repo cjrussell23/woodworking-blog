@@ -18,7 +18,6 @@ export interface BaseMediaProps {
 // Image-specific props
 export interface ImageMediaProps extends BaseMediaProps {
   fill?: boolean
-  pictureClassName?: string
   imgClassName?: string
   onLoad?: () => void
   loading?: 'lazy' | 'eager'

@@ -64,54 +64,6 @@ export const hero: Field = {
       ],
     },
     {
-      name: 'imagePosition',
-      type: 'select',
-      defaultValue: 'center',
-      label: 'Image Position',
-      admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
-        description: 'Control which part of the image is visible when using object-cover',
-      },
-      options: [
-        {
-          label: 'Top Left',
-          value: 'top-left',
-        },
-        {
-          label: 'Top Center',
-          value: 'top-center',
-        },
-        {
-          label: 'Top Right',
-          value: 'top-right',
-        },
-        {
-          label: 'Center Left',
-          value: 'center-left',
-        },
-        {
-          label: 'Center',
-          value: 'center',
-        },
-        {
-          label: 'Center Right',
-          value: 'center-right',
-        },
-        {
-          label: 'Bottom Left',
-          value: 'bottom-left',
-        },
-        {
-          label: 'Bottom Center',
-          value: 'bottom-center',
-        },
-        {
-          label: 'Bottom Right',
-          value: 'bottom-right',
-        },
-      ],
-    },
-    {
       name: 'title',
       type: 'text',
       required: true,
