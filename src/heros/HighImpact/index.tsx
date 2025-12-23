@@ -4,7 +4,7 @@ import React from 'react'
 import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
-import { Media } from '@/components/Media'
+import { ImageMedia } from '@/components/Media'
 import { cn } from '@/utilities/ui'
 import { getObjectPositionClass, getTextColorClass } from '../utils'
 
@@ -42,7 +42,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
       </div>
       <div className="min-h-[80vh] select-none">
         {media && typeof media === 'object' && (
-          <Media
+          <ImageMedia
             fill
             imgClassName={cn('-z-10 object-cover', getObjectPositionClass(imagePosition))}
             priority

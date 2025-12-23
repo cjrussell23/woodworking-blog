@@ -1,5 +1,5 @@
 import { YouTubeEmbedBlock } from '@/blocks/YouTubeEmbed/Component'
-import { Media } from '@/components/Media'
+import { ImageMedia, VideoMedia } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import React from 'react'
@@ -53,13 +53,23 @@ export const LayoutBlock: React.FC<LayoutBlockProps> = (props) => {
             return (
               <div className="size-fit" key={col.id || index}>
                 {contentType === 'media' && media && typeof media === 'object' && (
-                  <Media
-                    imgClassName="border border-border rounded-[0.8rem]"
-                    resource={media}
-                    customWidth={width}
-                    customHeight={height}
-                    enableFullscreen={true}
-                  />
+                  <>
+                    {media.mimeType?.includes('video') ? (
+                      <VideoMedia
+                        videoClassName="border border-border rounded-[0.8rem]"
+                        resource={media}
+                        customWidth={width}
+                        customHeight={height}
+                      />
+                    ) : (
+                      <ImageMedia
+                        imgClassName="border border-border rounded-[0.8rem]"
+                        resource={media}
+                        customWidth={width}
+                        customHeight={height}
+                      />
+                    )}
+                  </>
                 )}
                 {contentType === 'youtubeVideo' && videoId && (
                   <YouTubeEmbedBlock videoId={videoId} blockType="youtubeEmbed" />

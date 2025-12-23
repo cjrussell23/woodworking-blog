@@ -6,8 +6,10 @@ import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
+import { ImageBlock } from '@/blocks/ImageBlock/Component'
+import { ImageGalleryBlock } from '@/blocks/ImageGallery/Component'
 import { LayoutBlock } from '@/blocks/Layout/Component'
-import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { VideoBlock } from '@/blocks/VideoBlock/Component'
 import { YouTubeEmbedBlock } from '@/blocks/YouTubeEmbed/Component'
 
 const blockComponents = {
@@ -15,8 +17,10 @@ const blockComponents = {
   content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
+  imageGallery: ImageGalleryBlock,
   layout: LayoutBlock,
-  mediaBlock: MediaBlock,
+  imageBlock: ImageBlock,
+  videoBlock: VideoBlock,
   youtubeEmbed: YouTubeEmbedBlock,
 }
 

@@ -20,7 +20,8 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "db:compare-schemas": "tsx scripts/compare-schemas.ts",
     "db:copy-data": "tsx scripts/copy-data.ts",
-    "db:clear-prod": "tsx scripts/clear-prod-database.ts"
+    "db:clear-prod": "tsx scripts/clear-prod-database.ts",
+    "db:migrate-mediablock": "tsx scripts/migrate-mediablock-to-imageblock.ts"
   },
   "dependencies": {
     "@payloadcms/admin-bar": "3.69.0",

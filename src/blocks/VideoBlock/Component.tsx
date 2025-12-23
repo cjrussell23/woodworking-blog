@@ -1,31 +1,26 @@
-import type { StaticImageData } from 'next/image'
-
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import React from 'react'
 
-import type { MediaBlock as MediaBlockProps } from '@/payload-types'
+import type { VideoBlock as VideoBlockProps } from '@/payload-types'
 
-import { Media } from '../../components/Media'
+import { VideoMedia } from '../../components/Media'
 
-type Props = MediaBlockProps & {
-  breakout?: boolean
+type Props = VideoBlockProps & {
   captionClassName?: string
   className?: string
   enableGutter?: boolean
-  imgClassName?: string
-  staticImage?: StaticImageData
+  videoClassName?: string
   disableInnerContainer?: boolean
 }
 
-export const MediaBlock: React.FC<Props> = (props) => {
+export const VideoBlock: React.FC<Props> = (props) => {
   const {
     captionClassName,
     className,
     enableGutter = true,
-    imgClassName,
-    media,
-    staticImage,
+    videoClassName,
+    video,
     disableInnerContainer,
     displayInline,
     position = 'left',
@@ -34,7 +29,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
   } = props
 
   let caption
-  if (media && typeof media === 'object') caption = media.caption
+  if (video && typeof video === 'object') caption = video.caption
 
   return (
     <div
@@ -56,14 +51,12 @@ export const MediaBlock: React.FC<Props> = (props) => {
           : undefined
       }
     >
-      {(media || staticImage) && (
-        <Media
-          imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-          resource={media}
-          src={staticImage}
+      {video && (
+        <VideoMedia
+          videoClassName={cn('border border-border rounded-[0.8rem]', videoClassName)}
+          resource={video}
           customWidth={width}
           customHeight={height}
-          enableFullscreen={true}
         />
       )}
       {caption && (

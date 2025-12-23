@@ -1,4 +1,4 @@
-import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { ImageBlock } from '@/blocks/ImageBlock/Component'
 import {
   DefaultNodeTypes,
   SerializedBlockNode,
@@ -15,13 +15,17 @@ import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
 
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
+import { ImageGalleryBlock } from '@/blocks/ImageGallery/Component'
 import { LayoutBlock } from '@/blocks/Layout/Component'
+import { VideoBlock } from '@/blocks/VideoBlock/Component'
 import { YouTubeEmbedBlock } from '@/blocks/YouTubeEmbed/Component'
 import type {
   BannerBlock as BannerBlockProps,
   CallToActionBlock as CTABlockProps,
+  ImageBlock as ImageBlockProps,
+  ImageGallery as ImageGalleryProps,
   LayoutBlock as LayoutBlockProps,
-  MediaBlock as MediaBlockProps,
+  VideoBlock as VideoBlockProps,
   YouTubeEmbedBlock as YouTubeEmbedBlockProps,
 } from '@/payload-types'
 import { cn } from '@/utilities/ui'
@@ -30,10 +34,12 @@ type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
       | CTABlockProps
-      | MediaBlockProps
+      | ImageBlockProps
       | BannerBlockProps
       | CodeBlockProps
+      | ImageGalleryProps
       | LayoutBlockProps
+      | VideoBlockProps
       | YouTubeEmbedBlockProps
     >
 
@@ -51,8 +57,8 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   ...LinkJSXConverter({ internalDocToHref }),
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
-    mediaBlock: ({ node }) => (
-      <MediaBlock
+    imageBlock: ({ node }) => (
+      <ImageBlock
         className="col-start-1 col-span-3"
         imgClassName="m-0"
         {...node.fields}
@@ -63,7 +69,18 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
+    imageGallery: ({ node }) => <ImageGalleryBlock className="col-start-2 mb-4" {...node.fields} />,
     layout: ({ node }) => <LayoutBlock {...node.fields} />,
+    videoBlock: ({ node }) => (
+      <VideoBlock
+        className="col-start-1 col-span-3"
+        videoClassName="m-0"
+        {...node.fields}
+        captionClassName="mx-auto max-w-[48rem]"
+        enableGutter={false}
+        disableInnerContainer={true}
+      />
+    ),
     youtubeEmbed: ({ node }) => <YouTubeEmbedBlock className="col-start-2" {...node.fields} />,
   },
 })

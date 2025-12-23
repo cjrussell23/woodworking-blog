@@ -1,6 +1,6 @@
 import type { Metadata } from 'next/types'
 
-import { Media } from '@/components/Media'
+import { ImageMedia } from '@/components/Media'
 import configPromise from '@payload-config'
 import Link from 'next/link'
 import { getPayload } from 'payload'
@@ -38,7 +38,7 @@ export default async function Page() {
               className="block border border-border rounded-lg hover:border-primary transition-colors overflow-hidden group aspect-square relative"
             >
               {category.image && typeof category.image !== 'string' && (
-                <Media
+                <ImageMedia
                   resource={category.image}
                   className="absolute inset-0 object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                 />

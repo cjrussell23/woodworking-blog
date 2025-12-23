@@ -212,7 +212,16 @@ export interface Page {
     };
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | YouTubeEmbedBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | ImageGallery
+    | ImageBlock
+    | VideoBlock
+    | ArchiveBlock
+    | FormBlock
+    | YouTubeEmbedBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -604,9 +613,34 @@ export interface ContentBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock".
+ * via the `definition` "ImageGallery".
  */
-export interface MediaBlock {
+export interface ImageGallery {
+  images: {
+    image: number | Media;
+    caption?: string | null;
+    id?: string | null;
+  }[];
+  displayMode: 'grid' | 'carousel';
+  /**
+   * Number of columns in the grid layout.
+   */
+  gridColumns?: ('2' | '3' | '4') | null;
+  aspectRatio?: ('auto' | 'square' | 'landscape' | 'portrait') | null;
+  gap?: ('small' | 'medium' | 'large') | null;
+  /**
+   * Allow users to click images to view them in full size.
+   */
+  enableLightbox?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageGallery';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock".
+ */
+export interface ImageBlock {
   media: number | Media;
   /**
    * When enabled, the image will float and allow text to wrap around it.
@@ -626,7 +660,33 @@ export interface MediaBlock {
   height?: number | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'mediaBlock';
+  blockType: 'imageBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideoBlock".
+ */
+export interface VideoBlock {
+  video: number | Media;
+  /**
+   * When enabled, the video will float and allow text to wrap around it.
+   */
+  displayInline?: boolean | null;
+  /**
+   * Choose which side the video should appear on.
+   */
+  position?: ('left' | 'right') | null;
+  /**
+   * Leave empty to use the original video width.
+   */
+  width?: number | null;
+  /**
+   * Leave empty to use the original video height.
+   */
+  height?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videoBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1232,7 +1292,9 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
-        mediaBlock?: T | MediaBlockSelect<T>;
+        imageGallery?: T | ImageGallerySelect<T>;
+        imageBlock?: T | ImageBlockSelect<T>;
+        videoBlock?: T | VideoBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         youtubeEmbed?: T | YouTubeEmbedBlockSelect<T>;
@@ -1303,10 +1365,43 @@ export interface ContentBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock_select".
+ * via the `definition` "ImageGallery_select".
  */
-export interface MediaBlockSelect<T extends boolean = true> {
+export interface ImageGallerySelect<T extends boolean = true> {
+  images?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  displayMode?: T;
+  gridColumns?: T;
+  aspectRatio?: T;
+  gap?: T;
+  enableLightbox?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock_select".
+ */
+export interface ImageBlockSelect<T extends boolean = true> {
   media?: T;
+  displayInline?: T;
+  position?: T;
+  width?: T;
+  height?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideoBlock_select".
+ */
+export interface VideoBlockSelect<T extends boolean = true> {
+  video?: T;
   displayInline?: T;
   position?: T;
   width?: T;

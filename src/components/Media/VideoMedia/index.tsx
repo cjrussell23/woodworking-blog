@@ -3,11 +3,11 @@
 import { cn } from '@/utilities/ui'
 import React, { useEffect, useRef } from 'react'
 
-import type { Props as MediaProps } from '../types'
+import type { VideoMediaProps } from '../types'
 
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 
-export const VideoMedia: React.FC<MediaProps> = (props) => {
+export const VideoMedia: React.FC<VideoMediaProps> = (props) => {
   const { onClick, resource, videoClassName, customWidth, customHeight } = props
 
   const videoRef = useRef<HTMLVideoElement>(null)

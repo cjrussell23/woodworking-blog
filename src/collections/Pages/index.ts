@@ -8,7 +8,9 @@ import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { ImageBlock } from '../../blocks/ImageBlock/config'
+import { ImageGallery } from '../../blocks/ImageGallery/config'
+import { VideoBlock } from '../../blocks/VideoBlock/config'
 import { YouTubeEmbed } from '../../blocks/YouTubeEmbed/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -73,7 +75,16 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, YouTubeEmbed],
+              blocks: [
+                CallToAction,
+                Content,
+                ImageGallery,
+                ImageBlock,
+                VideoBlock,
+                Archive,
+                FormBlock,
+                YouTubeEmbed,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,

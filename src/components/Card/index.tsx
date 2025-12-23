@@ -6,7 +6,7 @@ import React from 'react'
 
 import type { Post } from '@/payload-types'
 
-import { Media } from '@/components/Media'
+import { ImageMedia } from '@/components/Media'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
@@ -42,7 +42,7 @@ export const Card: React.FC<{
           <div className="flex items-center justify-center h-full text-gray-400">No image</div>
         )}
         {metaImage && typeof metaImage !== 'string' && (
-          <Media resource={metaImage} size="33vw" fill imgClassName="object-cover" />
+          <ImageMedia resource={metaImage} size="33vw" fill imgClassName="object-cover" />
         )}
       </div>
       <div className="p-4 pb-1 flex flex-col flex-1">

@@ -1,4 +1,4 @@
-import { Media } from '@/components/Media'
+import { ImageMedia } from '@/components/Media'
 import type { Page } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import React from 'react'
@@ -36,7 +36,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
       </div>
       <div className="min-h-[40vh] select-none">
         {media && typeof media === 'object' && (
-          <Media
+          <ImageMedia
             fill
             imgClassName={cn('-z-10 object-cover', getObjectPositionClass(imagePosition))}
             priority
