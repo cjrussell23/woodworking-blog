@@ -12,7 +12,7 @@ export const Logo = (props: Props) => {
   return (
     <div
       className={cn(
-        'size-10 grid items-center justify-center bg-card hover:bg-primary rounded-full text-primary hover:text-white',
+        'size-10 grid items-center justify-center bg-card hover:bg-primary rounded-full text-primary hover:text-white dark:hover:text-black transition-colors',
         className,
       )}
     >

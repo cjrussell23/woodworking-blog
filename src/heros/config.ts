@@ -82,6 +82,61 @@ export const hero: Field = {
         },
       },
     }),
+
+    // Blur options
+    {
+      name: 'blur',
+      type: 'group',
+      label: 'Blur',
+      admin: {
+        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+      },
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Enable Blur',
+          defaultValue: true,
+        },
+        {
+          name: 'strength',
+          type: 'number',
+          label: 'Blur Strength (px)',
+          min: 0,
+          max: 40,
+          defaultValue: 8,
+        },
+      ],
+    },
+
+    // Overlay options
+    {
+      name: 'overlay',
+      type: 'group',
+      label: 'Overlay',
+      admin: {
+        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+      },
+      fields: [
+        {
+          name: 'color',
+          type: 'text',
+          label: 'Overlay Color (CSS)',
+          defaultValue: 'black',
+        },
+        {
+          name: 'opacity',
+          type: 'number',
+          label: 'Overlay Opacity (0-1)',
+          min: 0,
+          max: 1,
+          admin: {
+            step: 0.01,
+          },
+          defaultValue: 0.5,
+        },
+      ],
+    },
     {
       name: 'media',
       type: 'upload',

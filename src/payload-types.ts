@@ -186,6 +186,14 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
+    blur?: {
+      enabled?: boolean | null;
+      strength?: number | null;
+    };
+    overlay?: {
+      color?: string | null;
+      opacity?: number | null;
+    };
     media?: (number | null) | Media;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | YouTubeEmbedBlock)[];
@@ -1149,6 +1157,18 @@ export interface PagesSelect<T extends boolean = true> {
                     appearance?: T;
                   };
               id?: T;
+            };
+        blur?:
+          | T
+          | {
+              enabled?: T;
+              strength?: T;
+            };
+        overlay?:
+          | T
+          | {
+              color?: T;
+              opacity?: T;
             };
         media?: T;
       };

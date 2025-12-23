@@ -1,12 +1,22 @@
-import React from 'react'
-
-import type { Page } from '@/payload-types'
-
 import { Media } from '@/components/Media'
+import type { Page } from '@/payload-types'
 import { cn } from '@/utilities/ui'
+import React from 'react'
 import { getTextColorClass } from '../utils'
 
-export const MediumImpactHero: React.FC<Page['hero']> = ({ media, title, subtitle, textColor }) => {
+export const MediumImpactHero: React.FC<Page['hero']> = ({
+  media,
+  title,
+  subtitle,
+  textColor,
+  blur,
+  overlay,
+}) => {
+  const blurEnabled = blur?.enabled !== false
+  const blurStrength = typeof blur?.strength === 'number' ? blur.strength : 8
+  const overlayColor = overlay?.color || 'black'
+  const overlayOpacity = typeof overlay?.opacity === 'number' ? overlay.opacity : 0.5
+
   return (
     <div
       className={cn(
@@ -14,7 +24,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ media, title, subtitl
         textColor === 'default' ? 'text-white' : getTextColorClass(textColor),
       )}
     >
-      <div className="container z-10 relative flex items-center justify-center">
+      <div className="container z-10 mt-[6rem] py-8 relative flex items-center justify-center">
         <div className="max-w-[36.5rem] md:text-center">
           {title && (
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
@@ -22,7 +32,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ media, title, subtitl
             </h1>
           )}
           {subtitle && (
-            <p className="text-lg md:text-xl opacity-90 [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]">
+            <p className="text-lg md:text-2xl opacity-90 [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]">
               {subtitle}
             </p>
           )}
@@ -32,6 +42,20 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ media, title, subtitl
         {media && typeof media === 'object' && (
           <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
         )}
+        {/* Blur overlay */}
+        {blurEnabled && (
+          <div
+            className="absolute inset-0 -z-10 pointer-events-none"
+            style={{ backdropFilter: `blur(${blurStrength}px)` }}
+            aria-hidden="true"
+          />
+        )}
+        {/* Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: overlayColor, opacity: overlayOpacity }}
+          aria-hidden="true"
+        />
       </div>
     </div>
   )
