@@ -7,6 +7,7 @@ import * as migration_20251223_042541 from './20251223_042541';
 import * as migration_20251223_052646 from './20251223_052646';
 import * as migration_20251223_070442 from './20251223_070442';
 import * as migration_20251223_193631_dotenv_config_path__env_production from './20251223_193631_dotenv_config_path__env_production';
+import * as migration_20251223_202224_dotenv_config_path__env_production from './20251223_202224_dotenv_config_path__env_production';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20251223_193631_dotenv_config_path__env_production.up,
     down: migration_20251223_193631_dotenv_config_path__env_production.down,
-    name: '20251223_193631_dotenv_config_path__env_production'
+    name: '20251223_193631_dotenv_config_path__env_production',
+  },
+  {
+    up: migration_20251223_202224_dotenv_config_path__env_production.up,
+    down: migration_20251223_202224_dotenv_config_path__env_production.down,
+    name: '20251223_202224_dotenv_config_path__env_production'
   },
 ];
