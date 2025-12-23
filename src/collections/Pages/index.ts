@@ -6,10 +6,10 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
-import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { ImageBlock } from '../../blocks/ImageBlock/config'
 import { ImageGallery } from '../../blocks/ImageGallery/config'
+import { Layout } from '../../blocks/Layout/config'
 import { VideoBlock } from '../../blocks/VideoBlock/config'
 import { YouTubeEmbed } from '../../blocks/YouTubeEmbed/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -77,13 +77,13 @@ export const Pages: CollectionConfig<'pages'> = {
               type: 'blocks',
               blocks: [
                 CallToAction,
-                Content,
                 ImageGallery,
                 ImageBlock,
                 VideoBlock,
                 Archive,
                 FormBlock,
                 YouTubeEmbed,
+                Layout,
               ],
               required: true,
               admin: {

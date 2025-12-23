@@ -4,7 +4,6 @@ import type { Page } from '@/payload-types'
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
-import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { ImageBlock } from '@/blocks/ImageBlock/Component'
 import { ImageGalleryBlock } from '@/blocks/ImageGallery/Component'
@@ -14,7 +13,6 @@ import { YouTubeEmbedBlock } from '@/blocks/YouTubeEmbed/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
-  content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
   imageGallery: ImageGalleryBlock,
@@ -44,7 +42,7 @@ export const RenderBlocks: React.FC<{
               return (
                 <div className="my-8" key={index}>
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
-                  <Block {...block} disableInnerContainer />
+                  <Block {...block} />
                 </div>
               )
             }

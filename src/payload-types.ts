@@ -198,13 +198,13 @@ export interface Page {
   };
   layout: (
     | CallToActionBlock
-    | ContentBlock
     | ImageGallery
     | ImageBlock
     | VideoBlock
     | ArchiveBlock
     | FormBlock
     | YouTubeEmbedBlock
+    | LayoutBlock
   )[];
   meta?: {
     title?: string | null;
@@ -471,56 +471,6 @@ export interface CallToActionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContentBlock".
- */
-export interface ContentBlock {
-  columns?:
-    | {
-        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-        richText?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        enableLink?: boolean | null;
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-          /**
-           * Choose how the link should be rendered.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'content';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -881,6 +831,73 @@ export interface YouTubeEmbedBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LayoutBlock".
+ */
+export interface LayoutBlock {
+  /**
+   * Break out of the container to span the full viewport width
+   */
+  fullWidth?: boolean | null;
+  /**
+   * Direction of the flex container
+   */
+  direction?: ('row' | 'column') | null;
+  /**
+   * Horizontal alignment of items
+   */
+  justifyContent?: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly') | null;
+  /**
+   * Vertical alignment of items
+   */
+  alignItems?: ('start' | 'center' | 'end' | 'stretch') | null;
+  /**
+   * Allow items to wrap to the next line
+   */
+  wrap?: boolean | null;
+  /**
+   * Spacing between items
+   */
+  gap?: ('none' | 'small' | 'medium' | 'large') | null;
+  columns?:
+    | {
+        contentType: 'richText' | 'youtubeVideo' | 'media';
+        media?: (number | null) | Media;
+        /**
+         * Leave empty to use the original image width.
+         */
+        width?: number | null;
+        /**
+         * Leave empty to use the original image height.
+         */
+        height?: number | null;
+        /**
+         * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+         */
+        videoId?: string | null;
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'layout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1197,13 +1214,13 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         cta?: T | CallToActionBlockSelect<T>;
-        content?: T | ContentBlockSelect<T>;
         imageGallery?: T | ImageGallerySelect<T>;
         imageBlock?: T | ImageBlockSelect<T>;
         videoBlock?: T | VideoBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         youtubeEmbed?: T | YouTubeEmbedBlockSelect<T>;
+        layout?: T | LayoutBlockSelect<T>;
       };
   meta?:
     | T
@@ -1228,32 +1245,6 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
   links?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContentBlock_select".
- */
-export interface ContentBlockSelect<T extends boolean = true> {
-  columns?:
-    | T
-    | {
-        size?: T;
-        richText?: T;
-        enableLink?: T;
         link?:
           | T
           | {
@@ -1350,6 +1341,31 @@ export interface YouTubeEmbedBlockSelect<T extends boolean = true> {
   showRelatedVideos?: T;
   startTime?: T;
   endTime?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LayoutBlock_select".
+ */
+export interface LayoutBlockSelect<T extends boolean = true> {
+  fullWidth?: T;
+  direction?: T;
+  justifyContent?: T;
+  alignItems?: T;
+  wrap?: T;
+  gap?: T;
+  columns?:
+    | T
+    | {
+        contentType?: T;
+        media?: T;
+        width?: T;
+        height?: T;
+        videoId?: T;
+        richText?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1920,73 +1936,6 @@ export interface CodeBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'code';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LayoutBlock".
- */
-export interface LayoutBlock {
-  /**
-   * Break out of the container to span the full viewport width
-   */
-  fullWidth?: boolean | null;
-  /**
-   * Direction of the flex container
-   */
-  direction?: ('row' | 'column') | null;
-  /**
-   * Horizontal alignment of items
-   */
-  justifyContent?: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly') | null;
-  /**
-   * Vertical alignment of items
-   */
-  alignItems?: ('start' | 'center' | 'end' | 'stretch') | null;
-  /**
-   * Allow items to wrap to the next line
-   */
-  wrap?: boolean | null;
-  /**
-   * Spacing between items
-   */
-  gap?: ('none' | 'small' | 'medium' | 'large') | null;
-  columns?:
-    | {
-        contentType: 'richText' | 'youtubeVideo' | 'media';
-        media?: (number | null) | Media;
-        /**
-         * Leave empty to use the original image width.
-         */
-        width?: number | null;
-        /**
-         * Leave empty to use the original image height.
-         */
-        height?: number | null;
-        /**
-         * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-         */
-        videoId?: string | null;
-        richText?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'layout';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
