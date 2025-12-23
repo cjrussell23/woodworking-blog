@@ -6,7 +6,7 @@
 - Fix Image cropping.
 - Add text shadow to header nav when scroll top. - done
 - Use smaller image for post cards on archives.
-- Home page title
+- Home page title - done
 - Fix robots.txt
 - Compress images during upload (convert to webp)
-- Better deployment process
+- Better deployment process -done
