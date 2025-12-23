@@ -1,5 +1,3 @@
-'use client'
-
 import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
@@ -8,10 +6,7 @@ import React from 'react'
 
 import type { ImageMediaProps } from '../types'
 
-import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
-
-const { breakpoints } = cssVariables
 
 // A base64 encoded image to use as a placeholder while the image is loading
 const placeholderBlur =
@@ -25,7 +20,6 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
     imgClassName,
     priority,
     resource,
-    size: sizeFromProps,
     src: srcFromProps,
     loading: loadingFromProps,
     customWidth,
@@ -60,13 +54,6 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
 
-  // NOTE: this is used by the browser to determine which image to download at different screen sizes
-  const sizes = sizeFromProps
-    ? sizeFromProps
-    : Object.entries(breakpoints)
-        .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
-        .join(', ')
-
   return (
     <picture
       className={cn(pictureClassName, 'm-0')}
@@ -93,7 +80,6 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
         priority={priority}
         quality={100}
         loading={loading}
-        sizes={sizes}
         src={src}
         width={!fill ? width : undefined}
       />
