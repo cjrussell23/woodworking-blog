@@ -70,7 +70,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
     imageGallery: ({ node }) => <ImageGalleryBlock className="col-start-2 mb-4" {...node.fields} />,
-    layout: ({ node }) => <LayoutBlock {...node.fields} />,
+    layout: ({ node }) => <LayoutBlock {...node.fields} isPage={false} />,
     videoBlock: ({ node }) => (
       <VideoBlock
         className="col-start-1 col-span-3"

@@ -59,7 +59,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
+          <RichText className="max-w-[64rem] mx-auto" data={post.content} enableGutter={false} />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <>
               <h2 className="mt-16 mb-4 text-2xl font-semibold text-center">Related Posts</h2>

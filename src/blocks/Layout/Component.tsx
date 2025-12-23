@@ -11,8 +11,12 @@ import { createPortal } from 'react-dom'
 
 import type { LayoutBlock as LayoutBlockProps } from '@/payload-types'
 
-export const LayoutBlock: React.FC<LayoutBlockProps> = (props) => {
-  const { columns, fullWidth, direction, justifyContent, alignItems, wrap, gap } = props
+export const LayoutBlock: React.FC<
+  LayoutBlockProps & {
+    isPage: boolean
+  }
+> = (props) => {
+  const { columns, fullWidth, direction, justifyContent, alignItems, wrap, gap, isPage } = props
   const [fullscreenImageIndex, setFullscreenImageIndex] = useState<number | null>(null)
 
   const gapClasses = {
@@ -44,9 +48,13 @@ export const LayoutBlock: React.FC<LayoutBlockProps> = (props) => {
 
   return (
     <div
-      className={cn('my-4', {
-        'w-screen relative left-1/2 -translate-x-1/2': fullWidth,
-      })}
+      className={
+        isPage
+          ? 'container'
+          : cn('my-4', {
+              'w-screen relative left-1/2 -translate-x-1/2': fullWidth,
+            })
+      }
     >
       <div
         className={cn(
