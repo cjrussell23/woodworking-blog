@@ -78,6 +78,25 @@ export const ImageGallery: Block = {
       ],
     },
     {
+      name: 'objectFit',
+      type: 'select',
+      label: 'Image Fit',
+      defaultValue: 'cover',
+      options: [
+        {
+          label: 'Cover (Fill & Crop)',
+          value: 'cover',
+        },
+        {
+          label: 'Contain (Fit Within)',
+          value: 'contain',
+        },
+      ],
+      admin: {
+        description: 'How images should fit within their container.',
+      },
+    },
+    {
       name: 'gap',
       type: 'select',
       label: 'Gap Between Images',

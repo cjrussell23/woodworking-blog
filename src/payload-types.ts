@@ -484,6 +484,10 @@ export interface ImageGallery {
    */
   gridColumns?: ('2' | '3' | '4') | null;
   aspectRatio?: ('auto' | 'square' | 'landscape' | 'portrait') | null;
+  /**
+   * How images should fit within their container.
+   */
+  objectFit?: ('cover' | 'contain') | null;
   gap?: ('small' | 'medium' | 'large') | null;
   /**
    * Allow users to click images to view them in full size.
@@ -1265,6 +1269,7 @@ export interface ImageGallerySelect<T extends boolean = true> {
   displayMode?: T;
   gridColumns?: T;
   aspectRatio?: T;
+  objectFit?: T;
   gap?: T;
   enableLightbox?: T;
   id?: T;

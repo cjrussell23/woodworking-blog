@@ -18,6 +18,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
     displayMode = 'grid',
     gridColumns = '3',
     aspectRatio = 'auto',
+    objectFit = 'cover',
     gap = 'medium',
     enableLightbox = true,
     className,
@@ -43,6 +44,11 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
     portrait: 'aspect-[3/4]',
   }
 
+  const objectFitClasses = {
+    cover: 'object-cover',
+    contain: 'object-contain',
+  }
+
   const gridColClasses = {
     '2': 'grid-cols-1 sm:grid-cols-2',
     '3': 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
@@ -51,6 +57,9 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
 
   const gapClass = gap ? gapClasses[gap] : gapClasses.medium
   const aspectRatioClass = aspectRatio ? aspectRatioClasses[aspectRatio] : aspectRatioClasses.auto
+  const objectFitClass = objectFit
+    ? objectFitClasses[objectFit as 'cover' | 'contain']
+    : objectFitClasses.cover
   const gridColClass = gridColumns
     ? gridColClasses[gridColumns as '2' | '3' | '4']
     : gridColClasses['3']
@@ -102,7 +111,13 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                     onClick={() => handleLightboxOpen(index)}
                   >
                     {image && (
-                      <ImageMedia resource={image} imgClassName="border border-border rounded-lg" />
+                      <ImageMedia
+                        resource={image}
+                        imgClassName={cn(
+                          'border bg-foreground border-border rounded-lg',
+                          objectFitClass,
+                        )}
+                      />
                     )}
                   </div>
                   {image?.caption && (
@@ -170,7 +185,12 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                 )}
                 onClick={() => handleLightboxOpen(index)}
               >
-                {image && <ImageMedia resource={image} />}
+                {image && (
+                  <ImageMedia
+                    resource={image}
+                    imgClassName={cn('border border-border bg-foreground', objectFitClass)}
+                  />
+                )}
               </div>
               {image?.caption && (
                 <div className="mt-2 text-sm text-muted-foreground">
@@ -206,7 +226,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                     {image && (
                       <ImageMedia
                         resource={image}
-                        imgClassName="max-w-full max-h-[90vh] object-cover"
+                        imgClassName={cn('max-w-full max-h-[90vh] bg-foreground', objectFitClass)}
                       />
                     )}
                     {image?.caption && (
