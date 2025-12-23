@@ -160,6 +160,22 @@ export interface Page {
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     textColor?: ('default' | 'light' | 'dark' | 'primary' | 'secondary' | 'accent') | null;
+    /**
+     * Control which part of the image is visible when using object-cover
+     */
+    imagePosition?:
+      | (
+          | 'top-left'
+          | 'top-center'
+          | 'top-right'
+          | 'center-left'
+          | 'center'
+          | 'center-right'
+          | 'bottom-left'
+          | 'bottom-center'
+          | 'bottom-right'
+        )
+      | null;
     title: string;
     subtitle?: string | null;
     links?:
@@ -222,23 +238,61 @@ export interface Page {
 export interface Post {
   id: number;
   title: string;
-  heroImage?: (number | null) | Media;
-  /**
-   * Controls the focal point of the hero image.
-   */
-  heroImagePosition?:
-    | (
-        | 'top'
-        | 'top-right'
-        | 'top-left'
-        | 'center'
-        | 'center-right'
-        | 'center-left'
-        | 'bottom'
-        | 'bottom-right'
-        | 'bottom-left'
-      )
-    | null;
+  hero: {
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    textColor?: ('default' | 'light' | 'dark' | 'primary' | 'secondary' | 'accent') | null;
+    /**
+     * Control which part of the image is visible when using object-cover
+     */
+    imagePosition?:
+      | (
+          | 'top-left'
+          | 'top-center'
+          | 'top-right'
+          | 'center-left'
+          | 'center'
+          | 'center-right'
+          | 'bottom-left'
+          | 'bottom-center'
+          | 'bottom-right'
+        )
+      | null;
+    title?: string | null;
+    subtitle?: string | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+            /**
+             * Choose how the link should be rendered.
+             */
+            appearance?: ('default' | 'outline') | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    blur?: {
+      enabled?: boolean | null;
+      strength?: number | null;
+    };
+    overlay?: {
+      color?: string | null;
+      opacity?: number | null;
+    };
+    media?: (number | null) | Media;
+  };
   content: {
     root: {
       type: string;
@@ -1141,6 +1195,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         type?: T;
         textColor?: T;
+        imagePosition?: T;
         title?: T;
         subtitle?: T;
         links?:
@@ -1309,8 +1364,43 @@ export interface YouTubeEmbedBlockSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  heroImage?: T;
-  heroImagePosition?: T;
+  hero?:
+    | T
+    | {
+        type?: T;
+        textColor?: T;
+        imagePosition?: T;
+        title?: T;
+        subtitle?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                    appearance?: T;
+                  };
+              id?: T;
+            };
+        blur?:
+          | T
+          | {
+              enabled?: T;
+              strength?: T;
+            };
+        overlay?:
+          | T
+          | {
+              color?: T;
+              opacity?: T;
+            };
+        media?: T;
+      };
   content?: T;
   relatedPosts?: T;
   categories?: T;

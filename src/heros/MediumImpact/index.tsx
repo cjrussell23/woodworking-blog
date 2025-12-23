@@ -2,7 +2,7 @@ import { Media } from '@/components/Media'
 import type { Page } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import React from 'react'
-import { getTextColorClass } from '../utils'
+import { getObjectPositionClass, getTextColorClass } from '../utils'
 
 export const MediumImpactHero: React.FC<Page['hero']> = ({
   media,
@@ -11,12 +11,8 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
   textColor,
   blur,
   overlay,
+  imagePosition,
 }) => {
-  const blurEnabled = blur?.enabled !== false
-  const blurStrength = typeof blur?.strength === 'number' ? blur.strength : 8
-  const overlayColor = overlay?.color || 'black'
-  const overlayOpacity = typeof overlay?.opacity === 'number' ? overlay.opacity : 0.5
-
   return (
     <div
       className={cn(
@@ -40,20 +36,25 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
       </div>
       <div className="min-h-[40vh] select-none">
         {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
+          <Media
+            fill
+            imgClassName={cn('-z-10 object-cover', getObjectPositionClass(imagePosition))}
+            priority
+            resource={media}
+          />
         )}
         {/* Blur overlay */}
-        {blurEnabled && (
+        {blur?.enabled !== false && (
           <div
             className="absolute inset-0 -z-10 pointer-events-none"
-            style={{ backdropFilter: `blur(${blurStrength}px)` }}
+            style={{ backdropFilter: `blur(${blur?.strength}px)` }}
             aria-hidden="true"
           />
         )}
         {/* Overlay */}
         <div
           className="absolute inset-0"
-          style={{ backgroundColor: overlayColor, opacity: overlayOpacity }}
+          style={{ backgroundColor: overlay?.color ?? 'black', opacity: overlay?.opacity ?? 0 }}
           aria-hidden="true"
         />
       </div>

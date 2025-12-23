@@ -9,7 +9,7 @@ export const hero: Field = {
     {
       name: 'type',
       type: 'select',
-      defaultValue: 'lowImpact',
+      defaultValue: 'mediumImpact',
       label: 'Type',
       options: [
         {
@@ -64,6 +64,54 @@ export const hero: Field = {
       ],
     },
     {
+      name: 'imagePosition',
+      type: 'select',
+      defaultValue: 'center',
+      label: 'Image Position',
+      admin: {
+        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        description: 'Control which part of the image is visible when using object-cover',
+      },
+      options: [
+        {
+          label: 'Top Left',
+          value: 'top-left',
+        },
+        {
+          label: 'Top Center',
+          value: 'top-center',
+        },
+        {
+          label: 'Top Right',
+          value: 'top-right',
+        },
+        {
+          label: 'Center Left',
+          value: 'center-left',
+        },
+        {
+          label: 'Center',
+          value: 'center',
+        },
+        {
+          label: 'Center Right',
+          value: 'center-right',
+        },
+        {
+          label: 'Bottom Left',
+          value: 'bottom-left',
+        },
+        {
+          label: 'Bottom Center',
+          value: 'bottom-center',
+        },
+        {
+          label: 'Bottom Right',
+          value: 'bottom-right',
+        },
+      ],
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,
@@ -96,7 +144,7 @@ export const hero: Field = {
           name: 'enabled',
           type: 'checkbox',
           label: 'Enable Blur',
-          defaultValue: true,
+          defaultValue: false,
         },
         {
           name: 'strength',
@@ -104,7 +152,7 @@ export const hero: Field = {
           label: 'Blur Strength (px)',
           min: 0,
           max: 40,
-          defaultValue: 8,
+          defaultValue: 2,
         },
       ],
     },
@@ -133,7 +181,7 @@ export const hero: Field = {
           admin: {
             step: 0.01,
           },
-          defaultValue: 0.5,
+          defaultValue: 0.4,
         },
       ],
     },

@@ -9,6 +9,8 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+import { hero } from '@/heros/config'
+import type { GroupField } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
@@ -28,6 +30,24 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from 'payload'
+
+// Custom hero config for posts - title and subtitle are hidden since we use the post title
+const postHero: GroupField = {
+  ...(hero as GroupField),
+  fields: (hero as GroupField).fields.map((field) => {
+    if ('name' in field && (field.name === 'title' || field.name === 'subtitle')) {
+      return {
+        ...field,
+        required: false,
+        admin: {
+          ...('admin' in field && typeof field.admin === 'object' ? field.admin : {}),
+          hidden: true,
+        },
+      }
+    }
+    return field
+  }) as GroupField['fields'],
+}
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -77,32 +97,11 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'tabs',
       tabs: [
         {
+          fields: [postHero],
+          label: 'Hero',
+        },
+        {
           fields: [
-            {
-              name: 'heroImage',
-              type: 'upload',
-              relationTo: 'media',
-            },
-            {
-              name: 'heroImagePosition',
-              type: 'select',
-              label: 'Hero Image Position',
-              options: [
-                { label: 'Top', value: 'top' },
-                { label: 'Top Right', value: 'top-right' },
-                { label: 'Top Left', value: 'top-left' },
-                { label: 'Center', value: 'center' },
-                { label: 'Center Right', value: 'center-right' },
-                { label: 'Center Left', value: 'center-left' },
-                { label: 'Bottom', value: 'bottom' },
-                { label: 'Bottom Right', value: 'bottom-right' },
-                { label: 'Bottom Left', value: 'bottom-left' },
-              ],
-              defaultValue: 'center',
-              admin: {
-                description: 'Controls the focal point of the hero image.',
-              },
-            },
             {
               name: 'content',
               type: 'richText',
