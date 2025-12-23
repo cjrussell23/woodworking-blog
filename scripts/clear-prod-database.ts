@@ -57,7 +57,7 @@ async function main() {
   console.log('⚠️  PRODUCTION DATABASE CLEAR SCRIPT ⚠️\n')
 
   // Load production environment
-  dotenv.config({ path: path.resolve(process.cwd(), '.env.prod') })
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.production') })
   const prodHost = process.env.POSTGRES_HOST
   const prodUrl = buildConnectionString('POSTGRES')
 

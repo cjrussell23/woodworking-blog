@@ -15,6 +15,8 @@
     "ii": "cross-env NODE_OPTIONS=--no-deprecation npm --ignore-workspace install",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation next lint --fix",
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation node -r dotenv/config node_modules/.bin/payload migrate dotenv_config_path=.env.production",
+    "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation node -r dotenv/config node_modules/.bin/payload migrate:create dotenv_config_path=.env.production",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm package-lock.json && npm --ignore-workspace install",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",

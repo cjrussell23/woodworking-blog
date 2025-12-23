@@ -187,12 +187,12 @@ async function main() {
   console.log('🚀 Starting data copy from dev to production...\n')
 
   // Load dev environment
-  dotenv.config({ path: path.resolve(process.cwd(), '.env.dev') })
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.development') })
   const devHost = process.env.POSTGRES_HOST
   const devUrl = buildConnectionString('POSTGRES')
 
   // Load production environment
-  dotenv.config({ path: path.resolve(process.cwd(), '.env.prod'), override: true })
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.production'), override: true })
   const prodHost = process.env.POSTGRES_HOST
   const prodUrl = buildConnectionString('POSTGRES')
 
@@ -201,7 +201,7 @@ async function main() {
     console.error('❌ ERROR: Dev and Production hosts are the SAME!')
     console.error(`   Both are: ${devHost}`)
     console.error('\n   This would cause data to be copied to itself.')
-    console.error('   Please check your .env.dev and .env.prod files.\n')
+    console.error('   Please check your .env.development and .env.production files.\n')
     process.exit(1)
   }
 

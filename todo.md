@@ -9,3 +9,4 @@
 - Home page title
 - Fix robots.txt
 - Compress images during upload (convert to webp)
+- Better deployment process
