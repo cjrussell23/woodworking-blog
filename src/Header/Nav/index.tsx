@@ -16,8 +16,12 @@ export const HeaderNav: React.FC<{ data: HeaderType; isScrolled: boolean }> = ({
   const navItems = data?.navItems || []
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const textColor = isScrolled ? 'text-foreground' : 'text-white'
-  const iconColor = isScrolled ? 'text-foreground' : 'text-white'
+  const textColor = isScrolled
+    ? 'text-foreground '
+    : 'text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]'
+  const iconColor = isScrolled
+    ? 'text-foreground '
+    : 'text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]'
 
   // Prevent scrolling when menu is open
   useEffect(() => {
