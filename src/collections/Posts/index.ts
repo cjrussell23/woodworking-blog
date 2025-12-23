@@ -84,6 +84,26 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'media',
             },
             {
+              name: 'heroImagePosition',
+              type: 'select',
+              label: 'Hero Image Position',
+              options: [
+                { label: 'Top', value: 'top' },
+                { label: 'Top Right', value: 'top-right' },
+                { label: 'Top Left', value: 'top-left' },
+                { label: 'Center', value: 'center' },
+                { label: 'Center Right', value: 'center-right' },
+                { label: 'Center Left', value: 'center-left' },
+                { label: 'Bottom', value: 'bottom' },
+                { label: 'Bottom Right', value: 'bottom-right' },
+                { label: 'Bottom Left', value: 'bottom-left' },
+              ],
+              defaultValue: 'center',
+              admin: {
+                description: 'Controls the focal point of the hero image.',
+              },
+            },
+            {
               name: 'content',
               type: 'richText',
               editor: lexicalEditor({

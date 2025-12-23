@@ -215,6 +215,22 @@ export interface Post {
   id: number;
   title: string;
   heroImage?: (number | null) | Media;
+  /**
+   * Controls the focal point of the hero image.
+   */
+  heroImagePosition?:
+    | (
+        | 'top'
+        | 'top-right'
+        | 'top-left'
+        | 'center'
+        | 'center-right'
+        | 'center-left'
+        | 'bottom'
+        | 'bottom-right'
+        | 'bottom-left'
+      )
+    | null;
   content: {
     root: {
       type: string;
@@ -1274,6 +1290,7 @@ export interface YouTubeEmbedBlockSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
+  heroImagePosition?: T;
   content?: T;
   relatedPosts?: T;
   categories?: T;

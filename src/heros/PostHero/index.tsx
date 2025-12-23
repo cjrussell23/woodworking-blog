@@ -5,12 +5,26 @@ import { formatDateTime } from 'src/utilities/formatDateTime'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+
 import { formatAuthors } from '@/utilities/formatAuthors'
+
+// Map heroImagePosition to CSS object-position values
+const objectPositionMap: Record<string, string> = {
+  top: 'object-top',
+  'top-right': 'object-top-right',
+  'top-left': 'object-top-left',
+  center: 'object-center',
+  'center-right': 'object-right',
+  'center-left': 'object-left',
+  bottom: 'object-bottom',
+  'bottom-right': 'object-bottom-right',
+  'bottom-left': 'object-bottom-left',
+}
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, title } = post
+  const { categories, heroImage, populatedAuthors, publishedAt, title, heroImagePosition } = post
 
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
@@ -67,7 +81,12 @@ export const PostHero: React.FC<{
       </div>
       <div className="min-h-[60vh] select-none">
         {heroImage && typeof heroImage !== 'string' && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
+          <Media
+            fill
+            priority
+            imgClassName={`-z-10 object-cover ${objectPositionMap[heroImagePosition || 'center']}`}
+            resource={heroImage}
+          />
         )}
         <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
       </div>
