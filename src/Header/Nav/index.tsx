@@ -17,7 +17,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; isScrolled: boolean }> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const textColor = isScrolled ? 'text-foreground' : 'text-white'
-  const iconColor = isScrolled ? 'text-black' : 'text-white'
+  const iconColor = isScrolled ? 'text-foreground' : 'text-white'
 
   // Prevent scrolling when menu is open
   useEffect(() => {
@@ -63,12 +63,12 @@ export const HeaderNav: React.FC<{ data: HeaderType; isScrolled: boolean }> = ({
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 z-40 md:hidden animate-in fade-in duration-500"
+            className="fixed inset-0 bg-black/50 z-[60] md:hidden animate-in fade-in duration-500"
             onClick={() => setIsMobileMenuOpen(false)}
           />
 
           {/* Fade-in Sheet */}
-          <div className="fixed inset-0 w-full bg-card z-50 md:hidden flex flex-col animate-in fade-in duration-500">
+          <div className="fixed inset-0 w-full bg-card z-[70] md:hidden flex flex-col animate-in fade-in duration-500">
             {/* Header with Logo and Close Button - aligned with main header */}
             <div className="py-2 container flex justify-between items-center">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
@@ -77,14 +77,14 @@ export const HeaderNav: React.FC<{ data: HeaderType; isScrolled: boolean }> = ({
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Close menu"
-                className="mr-4"
+                className=""
               >
                 <X className="w-6 h-6 text-foreground" />
               </button>
             </div>
 
             {/* Navigation Links */}
-            <nav className="container flex flex-col items-end pr-10 gap-6 py-6 flex-1">
+            <nav className="container flex flex-col items-end pr-6 gap-6 py-6 flex-1">
               {navItems.map(({ link }, i) => {
                 return (
                   <CMSLink

@@ -96,6 +96,7 @@ export const ImageBlock: React.FC<Props> = (props) => {
             ? {
                 width: width ? `${width}px` : undefined,
                 height: height ? `${height}px` : undefined,
+                maxWidth: '100%',
               }
             : undefined
         }

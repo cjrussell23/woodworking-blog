@@ -76,6 +76,7 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
           ? {
               width: customWidth ? `${customWidth}px` : undefined,
               height: customHeight ? `${customHeight}px` : undefined,
+              maxWidth: '100%',
               display: 'block',
             }
           : undefined
@@ -84,6 +85,7 @@ export const ImageMedia: React.FC<ImageMediaProps> = (props) => {
       <NextImage
         alt={alt || ''}
         className={cn(imgClassName)}
+        style={customWidth || customHeight ? { maxWidth: '100%', height: 'auto' } : undefined}
         fill={fill}
         height={!fill ? height : undefined}
         placeholder="blur"
