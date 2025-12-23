@@ -1,4 +1,4 @@
-- Related Posts need to be smaller, should be 5 in a row.
+- Related Posts need to be smaller, should be 5 in a row. - done
 - Images in a layout need to have lightbox functionality.
 - Add post date to post cards.
 - Fix spacing of categories on post cards.

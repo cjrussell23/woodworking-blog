@@ -62,11 +62,8 @@ export default async function Post({ params: paramsPromise }: Args) {
           <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <>
-              <h2 className="mt-16 text-2xl font-semibold text-center">Related Posts</h2>
-              <RelatedPosts
-                className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-                docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-              />
+              <h2 className="mt-16 mb-4 text-2xl font-semibold text-center">Related Posts</h2>
+              <RelatedPosts docs={post.relatedPosts.filter((post) => typeof post === 'object')} />
             </>
           )}
         </div>

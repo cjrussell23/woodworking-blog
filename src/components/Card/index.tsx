@@ -16,10 +16,18 @@ export const Card: React.FC<{
   doc?: CardPostData
   relationTo?: 'posts'
   showCategories?: boolean
+  showDescription?: boolean
   title?: string
 }> = (props) => {
   const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const {
+    className,
+    doc,
+    relationTo,
+    showCategories,
+    title: titleFromProps,
+    showDescription = true,
+  } = props
 
   const { slug, categories, meta, title } = doc || {}
   const { description, image: metaImage } = meta || {}
@@ -55,7 +63,9 @@ export const Card: React.FC<{
             </h3>
           </div>
         )}
-        {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}
+        {description && showDescription && (
+          <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>
+        )}
         {showCategories && hasCategories && (
           <div className="text-sm mt-auto pt-4">
             {showCategories && hasCategories && (
