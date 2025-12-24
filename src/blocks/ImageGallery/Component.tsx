@@ -6,7 +6,7 @@ import RichText from '@/components/RichText'
 import type { ImageGallery as ImageGalleryProps } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = ImageGalleryProps & {
   className?: string
@@ -26,10 +26,6 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const [currentSlide, setCurrentSlide] = useState(0)
-
-  if (!images || images.length === 0) {
-    return null
-  }
 
   const gapClasses = {
     small: 'gap-2',
@@ -88,6 +84,28 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
 
   const handleLightboxNext = () => {
     setLightboxIndex((prev) => ((prev ?? 0) === images.length - 1 ? 0 : (prev ?? 0) + 1))
+  }
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (lightboxIndex === null) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleLightboxClose()
+      } else if (e.key === 'ArrowLeft') {
+        handleLightboxPrev()
+      } else if (e.key === 'ArrowRight') {
+        handleLightboxNext()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [lightboxIndex, images.length])
+
+  if (!images || images.length === 0) {
+    return null
   }
 
   if (displayMode === 'carousel') {
