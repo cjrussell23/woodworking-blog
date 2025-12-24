@@ -119,12 +119,12 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                         )}
                       />
                     )}
+                    {image?.caption && (
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center text-sm p-2">
+                        <RichText data={image.caption} enableGutter={false} />
+                      </div>
+                    )}
                   </div>
-                  {image?.caption && (
-                    <div className="mt-2 text-center text-sm text-muted-foreground">
-                      <RichText data={image.caption} enableGutter={false} />
-                    </div>
-                  )}
                 </div>
               )
             })}
@@ -176,7 +176,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
         {images.map((item, index) => {
           const image = typeof item === 'object' ? item : null
           return (
-            <div key={index} className="flex flex-col">
+            <div key={index} className="border border-border">
               <div
                 className={cn(
                   'relative overflow-hidden',
@@ -186,17 +186,14 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                 onClick={() => handleLightboxOpen(index)}
               >
                 {image && (
-                  <ImageMedia
-                    resource={image}
-                    imgClassName={cn('border border-border bg-foreground', objectFitClass)}
-                  />
+                  <ImageMedia resource={image} imgClassName={cn('bg-foreground', objectFitClass)} />
+                )}
+                {image?.caption && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm p-2">
+                    <RichText data={image.caption} enableGutter={false} />
+                  </div>
                 )}
               </div>
-              {image?.caption && (
-                <div className="mt-2 text-sm text-muted-foreground">
-                  <RichText data={image.caption} enableGutter={false} />
-                </div>
-              )}
             </div>
           )
         })}
@@ -222,7 +219,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                 const item = images[lightboxIndex]
                 const image = typeof item === 'object' ? item : null
                 return (
-                  <>
+                  <div className="relative">
                     {image && (
                       <ImageMedia
                         resource={image}
@@ -230,11 +227,11 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                       />
                     )}
                     {image?.caption && (
-                      <div className="mt-4 text-center text-white">
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center p-3">
                         <RichText data={image.caption} enableGutter={false} />
                       </div>
                     )}
-                  </>
+                  </div>
                 )
               })()}
             </div>
@@ -262,7 +259,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
                   <ChevronRight className="w-8 h-8" />
                 </button>
 
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-2 rounded-full">
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-2 rounded-full">
                   {lightboxIndex + 1} / {images.length}
                 </div>
               </>
