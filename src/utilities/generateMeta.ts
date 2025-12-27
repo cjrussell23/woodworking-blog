@@ -11,7 +11,8 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   let url = serverUrl + '/website-template-OG.webp'
 
   if (image && typeof image === 'object' && 'url' in image && image.url) {
-    url = serverUrl + image.url
+    const cacheTag = 'updatedAt' in image && image.updatedAt ? image.updatedAt : ''
+    url = `${serverUrl}${image.url}${cacheTag ? `?${encodeURIComponent(cacheTag)}` : ''}`
   }
 
   return url
