@@ -18,6 +18,10 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   return url
 }
 
+const isPost = (doc: Partial<Page> | Partial<Post> | null): doc is Post => {
+  return doc !== null && 'authors' in doc
+}
+
 export const generateMeta = async (args: {
   doc: Partial<Page> | Partial<Post> | null
 }): Promise<Metadata> => {
@@ -28,13 +32,25 @@ export const generateMeta = async (args: {
   const title = doc?.meta?.title || doc?.title || 'Untitled'
   const description = doc?.meta?.description || ''
 
+  // Determine the correct URL path
+  let path = '/'
+  if (doc?.slug) {
+    if (isPost(doc)) {
+      path = `/posts/${doc.slug}`
+    } else if (doc.slug === 'home') {
+      path = '/'
+    } else {
+      path = `/${doc.slug}`
+    }
+  }
+
   return {
     title,
     description,
     openGraph: mergeOpenGraph({
       title,
       description,
-      url: typeof doc?.slug === 'string' ? `/${doc.slug}` : '/',
+      url: path,
       images: ogImage
         ? [
             {
