@@ -15,12 +15,12 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
   return (
     <div
       className={cn(
-        'relative -mt-[10.4rem] flex items-center justify-center',
+        'relative -mt-[65px] flex items-start justify-start',
         textColor === 'default' ? 'text-white' : getTextColorClass(textColor),
       )}
     >
-      <div className="container z-10 mt-[6rem] py-8 relative flex items-center justify-center">
-        <div className="max-w-[36.5rem] md:text-center">
+      <div className="container z-10 py-8 mt-[55px] relative flex items-center justify-center">
+        <div className="max-w-[36.5rem] w-full md:text-center">
           {title && (
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
               {title}
@@ -33,7 +33,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
           )}
         </div>
       </div>
-      <div className="min-h-[40vh] select-none">
+      <div className="h-64 select-none">
         {media && typeof media === 'object' && (
           <ImageMedia fill imgClassName={'-z-10'} priority resource={media} />
         )}

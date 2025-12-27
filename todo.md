@@ -1,12 +1,20 @@
-- Related Posts need to be smaller, should be 5 in a row. - done
-- Images in a layout need to have lightbox functionality. - done
-- Add post date to post cards. - done
-- Fix spacing of categories on post cards. - done
+# Completed Tasks
+
+- Related Posts need to be smaller, should be 5 in a row.
+- Images in a layout need to have lightbox functionality.
+- Add post date to post cards.
+- Fix spacing of categories on post cards.
+- Add text shadow to header nav when scroll top.
+- Home page title
+- Better deployment process
+
+# Upcoming Tasks
+
 - Improve image selection UI when adding images to a post.
 - Fix Image cropping.
-- Add text shadow to header nav when scroll top. - done
 - Use smaller image for post cards on archives.
-- Home page title - done
 - Fix robots.txt
 - Compress images during upload (convert to webp)
-- Better deployment process -done
+
+- Horizonatal line on pages
+- Center text in rich text editor
