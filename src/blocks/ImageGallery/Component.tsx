@@ -110,80 +110,164 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
 
   if (displayMode === 'carousel') {
     return (
-      <div className={cn('relative w-full', className)}>
-        <div className="relative overflow-hidden rounded-lg">
-          <div
-            className="flex transition-transform duration-300 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {images.map((item, index) => {
-              const image = typeof item === 'object' ? item : null
-              return (
-                <div key={index} className="w-full flex-shrink-0">
-                  <div
-                    className={cn(
-                      'relative w-full overflow-hidden',
-                      aspectRatioClass,
-                      enableLightbox && 'cursor-pointer',
-                    )}
-                    onClick={() => handleLightboxOpen(index)}
-                  >
-                    {image && (
-                      <ImageMedia
-                        resource={image}
-                        imgClassName={cn(
-                          'border bg-foreground border-border rounded-lg',
-                          objectFitClass,
-                        )}
-                      />
-                    )}
-                    {image?.caption && (
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center text-sm p-2">
-                        <RichText data={image.caption} enableGutter={false} />
-                      </div>
-                    )}
+      <>
+        <div className={cn('w-full', className)}>
+          <div className="relative overflow-hidden rounded-lg">
+            <div
+              className="flex transition-transform duration-300 ease-in-out"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {images.map((item, index) => {
+                const image = typeof item === 'object' ? item : null
+                return (
+                  <div key={index} className="w-full flex-shrink-0">
+                    <div
+                      className={cn(
+                        'relative w-full overflow-hidden',
+                        aspectRatioClass,
+                        enableLightbox && 'cursor-pointer',
+                      )}
+                    >
+                      {image && (
+                        <ImageMedia
+                          resource={image}
+                          imgClassName={cn(
+                            'border bg-foreground border-border rounded-lg',
+                            objectFitClass,
+                          )}
+                          onClick={() => handleLightboxOpen(index)}
+                        />
+                      )}
+                      {image?.caption && (
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center text-sm p-2">
+                          <RichText data={image.caption} enableGutter={false} />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
+
+            {/* Carousel Controls */}
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handlePrevSlide()
+                  }}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleNextSlide()
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-8 h-8" />
+                </button>
+              </>
+            )}
           </div>
 
-          {/* Carousel Controls */}
+          {/* Dots Indicator */}
           {images.length > 1 && (
-            <>
-              <button
-                onClick={handlePrevSlide}
-                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button
-                onClick={handleNextSlide}
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
-                aria-label="Next image"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-
-              {/* Dots Indicator */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={cn(
-                      'w-2 h-2 rounded-full transition-all',
-                      currentSlide === index ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75',
-                    )}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </>
+            <div className="flex justify-center gap-2 mt-4">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setCurrentSlide(index)
+                  }}
+                  className={cn(
+                    'w-2 h-2 rounded-full transition-all',
+                    currentSlide === index
+                      ? 'bg-foreground w-8'
+                      : 'bg-foreground/50 hover:bg-foreground/75',
+                  )}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           )}
         </div>
-      </div>
+
+        {/* Lightbox */}
+        {enableLightbox && lightboxIndex !== null && (
+          <div
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+            onClick={handleLightboxClose}
+          >
+            <button
+              onClick={handleLightboxClose}
+              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+              aria-label="Close lightbox"
+            >
+              <X className="w-8 h-8" />
+            </button>
+
+            <div className="relative w-full h-full flex items-center justify-center p-4">
+              <div className="relative max-w-7xl max-h-full" onClick={(e) => e.stopPropagation()}>
+                {(() => {
+                  const item = images[lightboxIndex]
+                  const image = typeof item === 'object' ? item : null
+                  return (
+                    <div className="relative">
+                      {image && (
+                        <ImageMedia
+                          resource={image}
+                          imgClassName={cn('max-w-full max-h-[90vh] bg-foreground', objectFitClass)}
+                        />
+                      )}
+                      {image?.caption && (
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center p-3">
+                          <RichText data={image.caption} enableGutter={false} />
+                        </div>
+                      )}
+                    </div>
+                  )
+                })()}
+              </div>
+
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleLightboxPrev()
+                    }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-colors"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="w-8 h-8" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleLightboxNext()
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-colors"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="w-8 h-8" />
+                  </button>
+
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-2 rounded-full">
+                    {lightboxIndex + 1} / {images.length}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+      </>
     )
   }
 
