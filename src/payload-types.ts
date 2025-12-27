@@ -169,6 +169,7 @@ export interface Page {
       color?: string | null;
       opacity?: number | null;
     };
+    height?: ('xsmall' | 'small' | 'medium' | 'large' | 'xlarge') | null;
     media: number | Media;
   };
   layout: (
@@ -328,6 +329,7 @@ export interface Post {
       color?: string | null;
       opacity?: number | null;
     };
+    height?: ('xsmall' | 'small' | 'medium' | 'large' | 'xlarge') | null;
     media: number | Media;
   };
   content: {
@@ -1142,6 +1144,7 @@ export interface PagesSelect<T extends boolean = true> {
               color?: T;
               opacity?: T;
             };
+        height?: T;
         media?: T;
       };
   layout?:
@@ -1327,6 +1330,7 @@ export interface PostsSelect<T extends boolean = true> {
               color?: T;
               opacity?: T;
             };
+        height?: T;
         media?: T;
       };
   content?: T;

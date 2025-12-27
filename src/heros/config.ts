@@ -97,6 +97,34 @@ export const hero: Field = {
       ],
     },
     {
+      name: 'height',
+      type: 'select',
+      label: 'Image Height',
+      defaultValue: 'medium',
+      options: [
+        {
+          label: 'X-Small',
+          value: 'xsmall',
+        },
+        {
+          label: 'Small',
+          value: 'small',
+        },
+        {
+          label: 'Medium',
+          value: 'medium',
+        },
+        {
+          label: 'Large',
+          value: 'large',
+        },
+        {
+          label: 'X-Large',
+          value: 'xlarge',
+        },
+      ],
+    },
+    {
       name: 'media',
       type: 'upload',
       relationTo: 'media',

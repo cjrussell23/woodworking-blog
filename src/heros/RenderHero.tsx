@@ -18,11 +18,20 @@ export const RenderHero: React.FC<RenderHeroProps> = ({
   textColor,
   blur,
   overlay,
+  height,
   publishedAt,
   categories,
 }) => {
   const isPost = publishedAt !== undefined
   const postCategories = categories?.filter((cat): cat is Category => typeof cat === 'object')
+
+  const heightClass = {
+    xsmall: 'h-44',
+    small: 'h-52',
+    medium: 'h-64',
+    large: 'h-72',
+    xlarge: 'h-80',
+  }[height ?? 'medium']
   return (
     <div
       className={cn(
@@ -70,7 +79,7 @@ export const RenderHero: React.FC<RenderHeroProps> = ({
           )}
         </div>
       </div>
-      <div className="h-64 select-none">
+      <div className={cn('select-none', heightClass)}>
         {media && typeof media === 'object' && (
           <ImageMedia fill imgClassName={'-z-10'} priority resource={media} />
         )}
