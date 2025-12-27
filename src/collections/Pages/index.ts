@@ -15,6 +15,7 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { Banner } from '../../blocks/Banner/config'
+import { CallToAction } from '../../blocks/CallToAction/config'
 import { Code } from '../../blocks/Code/config'
 import { ImageBlock } from '../../blocks/ImageBlock/config'
 import { ImageGallery } from '../../blocks/ImageGallery/config'
@@ -93,6 +94,7 @@ export const Pages: CollectionConfig<'pages'> = {
                       blocks: [
                         Archive,
                         Banner,
+                        CallToAction,
                         Code,
                         ImageGallery,
                         Layout,
