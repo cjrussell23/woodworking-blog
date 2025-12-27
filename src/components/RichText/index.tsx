@@ -11,15 +11,16 @@ import {
   LinkJSXConverter,
 } from '@payloadcms/richtext-lexical/react'
 
-import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
-
+import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
+import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
 import { ImageGalleryBlock } from '@/blocks/ImageGallery/Component'
 import { LayoutBlock } from '@/blocks/Layout/Component'
 import { VideoBlock } from '@/blocks/VideoBlock/Component'
 import { YouTubeEmbedBlock } from '@/blocks/YouTubeEmbed/Component'
 import type {
+  ArchiveBlock as ArchiveBlockProps,
   BannerBlock as BannerBlockProps,
   CallToActionBlock as CTABlockProps,
   ImageBlock as ImageBlockProps,
@@ -33,6 +34,7 @@ import { cn } from '@/utilities/ui'
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
+      | ArchiveBlockProps
       | CTABlockProps
       | ImageBlockProps
       | BannerBlockProps
@@ -56,6 +58,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
   blocks: {
+    archive: ({ node }) => <ArchiveBlock {...node.fields} />,
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     imageBlock: ({ node }) => (
       <ImageBlock

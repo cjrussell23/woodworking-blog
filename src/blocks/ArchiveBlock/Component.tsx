@@ -1,8 +1,6 @@
-import type { ArchiveBlock as ArchiveBlockProps, Post } from '@/payload-types'
+'use client'
 
-import RichText from '@/components/RichText'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import type { ArchiveBlock as ArchiveBlockProps, Post } from '@/payload-types'
 import React from 'react'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
@@ -10,56 +8,28 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
     id?: string
+    className?: string
+    posts?: Post[]
+    populatedDocs?: Post[]
   }
-> = async (props) => {
-  const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
+> = (props) => {
+  const { id, className, selectedDocs, posts, populatedDocs } = props
 
-  const limit = limitFromProps || 3
-
-  let posts: Post[] = []
-
-  if (populateBy === 'collection') {
-    const payload = await getPayload({ config: configPromise })
-
-    const flattenedCategories = categories?.map((category) => {
-      if (typeof category === 'object') return category.id
-      else return category
-    })
-
-    const fetchedPosts = await payload.find({
-      collection: 'posts',
-      depth: 1,
-      limit,
-      ...(flattenedCategories && flattenedCategories.length > 0
-        ? {
-            where: {
-              categories: {
-                in: flattenedCategories,
-              },
-            },
-          }
-        : {}),
-    })
-
-    posts = fetchedPosts.docs
-  } else {
-    if (selectedDocs?.length) {
-      const filteredSelectedPosts = selectedDocs.map((post) => {
+  // Use provided posts, or populatedDocs (from afterRead hook), or fall back to selectedDocs
+  const displayPosts =
+    posts ||
+    populatedDocs ||
+    (selectedDocs
+      ?.map((post) => {
         if (typeof post.value === 'object') return post.value
-      }) as Post[]
-
-      posts = filteredSelectedPosts
-    }
-  }
+        return null
+      })
+      .filter(Boolean) as Post[]) ||
+    []
 
   return (
-    <div className="" id={`block-${id}`}>
-      {introContent && (
-        <div className="container mb-4">
-          <RichText className="ms-0 max-w-[48rem]" data={introContent} enableGutter={false} />
-        </div>
-      )}
-      <CollectionArchive posts={posts} />
+    <div className={className} id={`block-${id}`}>
+      <CollectionArchive posts={displayPosts} />
     </div>
   )
 }

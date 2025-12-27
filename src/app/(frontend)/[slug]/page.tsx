@@ -11,6 +11,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { populateArchiveBlocks } from '@/utilities/populateArchiveBlocks'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -58,6 +59,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, content } = page
 
+  // Populate archive blocks with posts
+  const payload = await getPayload({ config: configPromise })
+  const populatedContent = await populateArchiveBlocks(content, payload)
+
   return (
     <article className="pb-8">
       {/* Allows redirects for valid pages too */}
@@ -68,7 +73,11 @@ export default async function Page({ params: paramsPromise }: Args) {
       <RenderHero {...hero} />
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          <RichText className="max-w-[64rem] mx-auto" data={content} enableGutter={false} />
+          <RichText
+            className="max-w-[64rem] mx-auto"
+            data={populatedContent}
+            enableGutter={false}
+          />
         </div>
       </div>
     </article>

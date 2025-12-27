@@ -1,17 +1,16 @@
-import { cn } from '@/utilities/ui'
 import React from 'react'
 
 import { Card, CardPostData } from '@/components/Card'
 
 export type Props = {
   posts: CardPostData[]
+  className?: string
 }
 
 export const CollectionArchive: React.FC<Props> = (props) => {
-  const { posts } = props
-
+  const { posts, className } = props
   return (
-    <div className={cn('container')}>
+    <div className={className}>
       <div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-4 gap-x-4 lg:gap-y-8 lg:gap-x-8 xl:gap-x-8">
           {posts?.map((result, index) => {
@@ -26,7 +25,6 @@ export const CollectionArchive: React.FC<Props> = (props) => {
                 />
               )
             }
-
             return null
           })}
         </div>
