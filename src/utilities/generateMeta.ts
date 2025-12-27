@@ -10,10 +10,8 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
 
   let url = serverUrl + '/website-template-OG.webp'
 
-  if (image && typeof image === 'object' && 'url' in image) {
-    const ogUrl = image.url
-
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
+  if (image && typeof image === 'object' && 'url' in image && image.url) {
+    url = serverUrl + image.url
   }
 
   return url
@@ -22,16 +20,20 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
 export const generateMeta = async (args: {
   doc: Partial<Page> | Partial<Post> | null
 }): Promise<Metadata> => {
-  const { doc } = args
+  const { doc } = args || {}
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title ? doc?.meta?.title : 'Untitled'
+  const title = doc?.meta?.title || doc?.title || 'Untitled'
+  const description = doc?.meta?.description || ''
 
   return {
-    description: doc?.meta?.description,
+    title,
+    description,
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
+      title,
+      description,
+      url: typeof doc?.slug === 'string' ? `/${doc.slug}` : '/',
       images: ogImage
         ? [
             {
@@ -39,9 +41,12 @@ export const generateMeta = async (args: {
             },
           ]
         : undefined,
-      title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
     }),
-    title,
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ogImage ? [ogImage] : undefined,
+    },
   }
 }
