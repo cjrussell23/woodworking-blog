@@ -1,12 +1,21 @@
 import type { CollectionConfig } from 'payload'
 
+import {
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
+
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
-import { FormBlock } from '../../blocks/Form/config'
+import { Banner } from '../../blocks/Banner/config'
+import { Code } from '../../blocks/Code/config'
 import { ImageBlock } from '../../blocks/ImageBlock/config'
 import { ImageGallery } from '../../blocks/ImageGallery/config'
 import { Layout } from '../../blocks/Layout/config'
@@ -73,22 +82,33 @@ export const Pages: CollectionConfig<'pages'> = {
         {
           fields: [
             {
-              name: 'layout',
-              type: 'blocks',
-              blocks: [
-                CallToAction,
-                ImageGallery,
-                ImageBlock,
-                VideoBlock,
-                Archive,
-                FormBlock,
-                YouTubeEmbed,
-                Layout,
-              ],
+              name: 'content',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    BlocksFeature({
+                      blocks: [
+                        Archive,
+                        Banner,
+                        Code,
+                        ImageGallery,
+                        Layout,
+                        ImageBlock,
+                        VideoBlock,
+                        YouTubeEmbed,
+                      ],
+                    }),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                    HorizontalRuleFeature(),
+                  ]
+                },
+              }),
+              label: false,
               required: true,
-              admin: {
-                initCollapsed: true,
-              },
             },
           ],
           label: 'Content',

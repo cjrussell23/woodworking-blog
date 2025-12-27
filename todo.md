@@ -10,9 +10,9 @@
 
 # Upcoming Tasks
 
+- Use smaller image for post cards on archives.
 - Improve image selection UI when adding images to a post.
 - Fix Image cropping.
-- Use smaller image for post cards on archives.
 - Fix robots.txt
 - Compress images during upload (convert to webp)
 

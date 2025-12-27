@@ -172,16 +172,21 @@ export interface Page {
     height?: ('xsmall' | 'small' | 'medium' | 'large' | 'xlarge') | null;
     media: number | Media;
   };
-  layout: (
-    | CallToActionBlock
-    | ImageGallery
-    | ImageBlock
-    | VideoBlock
-    | ArchiveBlock
-    | FormBlock
-    | YouTubeEmbedBlock
-    | LayoutBlock
-  )[];
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   meta?: {
     title?: string | null;
     /**
@@ -261,54 +266,6 @@ export interface FolderInterface {
   folderType?: 'media'[] | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CallToActionBlock".
- */
-export interface CallToActionBlock {
-  richText?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-          /**
-           * Choose how the link should be rendered.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'cta';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -426,140 +383,29 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ImageGallery".
+ * via the `definition` "redirects".
  */
-export interface ImageGallery {
-  images: (number | Media)[];
-  displayMode: 'grid' | 'carousel';
+export interface Redirect {
+  id: number;
   /**
-   * Number of columns in the grid layout.
+   * You will need to rebuild the website when changing this field.
    */
-  gridColumns?: ('2' | '3' | '4') | null;
-  aspectRatio?: ('auto' | 'square' | 'landscape' | 'portrait') | null;
-  /**
-   * How images should fit within their container.
-   */
-  objectFit?: ('cover' | 'contain') | null;
-  gap?: ('small' | 'medium' | 'large') | null;
-  /**
-   * Allow users to click images to view them in full size.
-   */
-  enableLightbox?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'imageGallery';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ImageBlock".
- */
-export interface ImageBlock {
-  media: number | Media;
-  /**
-   * When enabled, the image will float and allow text to wrap around it.
-   */
-  displayInline?: boolean | null;
-  /**
-   * Choose which side the image should appear on.
-   */
-  position?: ('left' | 'right') | null;
-  /**
-   * Leave empty to use the original image width.
-   */
-  width?: number | null;
-  /**
-   * Leave empty to use the original image height.
-   */
-  height?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'imageBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VideoBlock".
- */
-export interface VideoBlock {
-  video: number | Media;
-  /**
-   * When enabled, the video will float and allow text to wrap around it.
-   */
-  displayInline?: boolean | null;
-  /**
-   * Choose which side the video should appear on.
-   */
-  position?: ('left' | 'right') | null;
-  /**
-   * Leave empty to use the original video width.
-   */
-  width?: number | null;
-  /**
-   * Leave empty to use the original video height.
-   */
-  height?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'videoBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ArchiveBlock".
- */
-export interface ArchiveBlock {
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
-  categories?: (number | Category)[] | null;
-  limit?: number | null;
-  selectedDocs?:
-    | {
-        relationTo: 'posts';
-        value: number | Post;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'archive';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormBlock".
- */
-export interface FormBlock {
-  form: number | Form;
-  enableIntro?: boolean | null;
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'formBlock';
+  from: string;
+  to?: {
+    type?: ('reference' | 'custom') | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -732,145 +578,6 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "YouTubeEmbedBlock".
- */
-export interface YouTubeEmbedBlock {
-  /**
-   * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-   */
-  videoId: string;
-  /**
-   * Optional title for accessibility
-   */
-  title?: string | null;
-  aspectRatio?: ('16:9' | '4:3' | '1:1' | '9:16' | '4:5') | null;
-  /**
-   * Video will play automatically when loaded (muted)
-   */
-  autoplay?: boolean | null;
-  /**
-   * Show player controls
-   */
-  controls?: boolean | null;
-  /**
-   * Video will restart when it ends
-   */
-  loop?: boolean | null;
-  /**
-   * Mute the video audio
-   */
-  mute?: boolean | null;
-  /**
-   * Minimize YouTube branding
-   */
-  modestBranding?: boolean | null;
-  /**
-   * Show related videos at the end
-   */
-  showRelatedVideos?: boolean | null;
-  /**
-   * Start playback at specific time
-   */
-  startTime?: number | null;
-  /**
-   * End playback at specific time
-   */
-  endTime?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'youtubeEmbed';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LayoutBlock".
- */
-export interface LayoutBlock {
-  /**
-   * Direction of the flex container
-   */
-  direction?: ('row' | 'column') | null;
-  /**
-   * Horizontal alignment of items
-   */
-  justifyContent?: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly') | null;
-  /**
-   * Vertical alignment of items
-   */
-  alignItems?: ('start' | 'center' | 'end' | 'stretch') | null;
-  /**
-   * Allow items to wrap to the next line
-   */
-  wrap?: boolean | null;
-  /**
-   * Spacing between items
-   */
-  gap?: ('none' | 'small' | 'medium' | 'large') | null;
-  columns?:
-    | {
-        contentType: 'richText' | 'youtubeVideo' | 'media';
-        media?: (number | null) | Media;
-        /**
-         * Leave empty to use the original image width.
-         */
-        width?: number | null;
-        /**
-         * Leave empty to use the original image height.
-         */
-        height?: number | null;
-        /**
-         * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-         */
-        videoId?: string | null;
-        richText?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'layout';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
- */
-export interface Redirect {
-  id: number;
-  /**
-   * You will need to rebuild the website when changing this field.
-   */
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
-    url?: string | null;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1147,18 +854,7 @@ export interface PagesSelect<T extends boolean = true> {
         height?: T;
         media?: T;
       };
-  layout?:
-    | T
-    | {
-        cta?: T | CallToActionBlockSelect<T>;
-        imageGallery?: T | ImageGallerySelect<T>;
-        imageBlock?: T | ImageBlockSelect<T>;
-        videoBlock?: T | VideoBlockSelect<T>;
-        archive?: T | ArchiveBlockSelect<T>;
-        formBlock?: T | FormBlockSelect<T>;
-        youtubeEmbed?: T | YouTubeEmbedBlockSelect<T>;
-        layout?: T | LayoutBlockSelect<T>;
-      };
+  content?: T;
   meta?:
     | T
     | {
@@ -1172,139 +868,6 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CallToActionBlock_select".
- */
-export interface CallToActionBlockSelect<T extends boolean = true> {
-  richText?: T;
-  links?:
-    | T
-    | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ImageGallery_select".
- */
-export interface ImageGallerySelect<T extends boolean = true> {
-  images?: T;
-  displayMode?: T;
-  gridColumns?: T;
-  aspectRatio?: T;
-  objectFit?: T;
-  gap?: T;
-  enableLightbox?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ImageBlock_select".
- */
-export interface ImageBlockSelect<T extends boolean = true> {
-  media?: T;
-  displayInline?: T;
-  position?: T;
-  width?: T;
-  height?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "VideoBlock_select".
- */
-export interface VideoBlockSelect<T extends boolean = true> {
-  video?: T;
-  displayInline?: T;
-  position?: T;
-  width?: T;
-  height?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ArchiveBlock_select".
- */
-export interface ArchiveBlockSelect<T extends boolean = true> {
-  introContent?: T;
-  populateBy?: T;
-  relationTo?: T;
-  categories?: T;
-  limit?: T;
-  selectedDocs?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormBlock_select".
- */
-export interface FormBlockSelect<T extends boolean = true> {
-  form?: T;
-  enableIntro?: T;
-  introContent?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "YouTubeEmbedBlock_select".
- */
-export interface YouTubeEmbedBlockSelect<T extends boolean = true> {
-  videoId?: T;
-  title?: T;
-  aspectRatio?: T;
-  autoplay?: T;
-  controls?: T;
-  loop?: T;
-  mute?: T;
-  modestBranding?: T;
-  showRelatedVideos?: T;
-  startTime?: T;
-  endTime?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LayoutBlock_select".
- */
-export interface LayoutBlockSelect<T extends boolean = true> {
-  direction?: T;
-  justifyContent?: T;
-  alignItems?: T;
-  wrap?: T;
-  gap?: T;
-  columns?:
-    | T
-    | {
-        contentType?: T;
-        media?: T;
-        width?: T;
-        height?: T;
-        videoId?: T;
-        richText?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1825,6 +1388,40 @@ export interface TaskSchedulePublish {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArchiveBlock".
+ */
+export interface ArchiveBlock {
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  populateBy?: ('collection' | 'selection') | null;
+  relationTo?: 'posts' | null;
+  categories?: (number | Category)[] | null;
+  limit?: number | null;
+  selectedDocs?:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'archive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BannerBlock".
  */
 export interface BannerBlock {
@@ -1858,6 +1455,196 @@ export interface CodeBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'code';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageGallery".
+ */
+export interface ImageGallery {
+  images: (number | Media)[];
+  displayMode: 'grid' | 'carousel';
+  /**
+   * Number of columns in the grid layout.
+   */
+  gridColumns?: ('2' | '3' | '4') | null;
+  aspectRatio?: ('auto' | 'square' | 'landscape' | 'portrait') | null;
+  /**
+   * How images should fit within their container.
+   */
+  objectFit?: ('cover' | 'contain') | null;
+  gap?: ('small' | 'medium' | 'large') | null;
+  /**
+   * Allow users to click images to view them in full size.
+   */
+  enableLightbox?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageGallery';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LayoutBlock".
+ */
+export interface LayoutBlock {
+  /**
+   * Direction of the flex container
+   */
+  direction?: ('row' | 'column') | null;
+  /**
+   * Horizontal alignment of items
+   */
+  justifyContent?: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly') | null;
+  /**
+   * Vertical alignment of items
+   */
+  alignItems?: ('start' | 'center' | 'end' | 'stretch') | null;
+  /**
+   * Allow items to wrap to the next line
+   */
+  wrap?: boolean | null;
+  /**
+   * Spacing between items
+   */
+  gap?: ('none' | 'small' | 'medium' | 'large') | null;
+  columns?:
+    | {
+        contentType: 'richText' | 'youtubeVideo' | 'media';
+        media?: (number | null) | Media;
+        /**
+         * Leave empty to use the original image width.
+         */
+        width?: number | null;
+        /**
+         * Leave empty to use the original image height.
+         */
+        height?: number | null;
+        /**
+         * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+         */
+        videoId?: string | null;
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'layout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageBlock".
+ */
+export interface ImageBlock {
+  media: number | Media;
+  /**
+   * When enabled, the image will float and allow text to wrap around it.
+   */
+  displayInline?: boolean | null;
+  /**
+   * Choose which side the image should appear on.
+   */
+  position?: ('left' | 'right') | null;
+  /**
+   * Leave empty to use the original image width.
+   */
+  width?: number | null;
+  /**
+   * Leave empty to use the original image height.
+   */
+  height?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideoBlock".
+ */
+export interface VideoBlock {
+  video: number | Media;
+  /**
+   * When enabled, the video will float and allow text to wrap around it.
+   */
+  displayInline?: boolean | null;
+  /**
+   * Choose which side the video should appear on.
+   */
+  position?: ('left' | 'right') | null;
+  /**
+   * Leave empty to use the original video width.
+   */
+  width?: number | null;
+  /**
+   * Leave empty to use the original video height.
+   */
+  height?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "YouTubeEmbedBlock".
+ */
+export interface YouTubeEmbedBlock {
+  /**
+   * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+   */
+  videoId: string;
+  /**
+   * Optional title for accessibility
+   */
+  title?: string | null;
+  aspectRatio?: ('16:9' | '4:3' | '1:1' | '9:16' | '4:5') | null;
+  /**
+   * Video will play automatically when loaded (muted)
+   */
+  autoplay?: boolean | null;
+  /**
+   * Show player controls
+   */
+  controls?: boolean | null;
+  /**
+   * Video will restart when it ends
+   */
+  loop?: boolean | null;
+  /**
+   * Mute the video audio
+   */
+  mute?: boolean | null;
+  /**
+   * Minimize YouTube branding
+   */
+  modestBranding?: boolean | null;
+  /**
+   * Show related videos at the end
+   */
+  showRelatedVideos?: boolean | null;
+  /**
+   * Start playback at specific time
+   */
+  startTime?: number | null;
+  /**
+   * End playback at specific time
+   */
+  endTime?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'youtubeEmbed';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
