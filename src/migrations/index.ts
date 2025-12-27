@@ -9,6 +9,7 @@ import * as migration_20251223_070442 from './20251223_070442';
 import * as migration_20251223_193631_dotenv_config_path__env_production from './20251223_193631_dotenv_config_path__env_production';
 import * as migration_20251223_202224_dotenv_config_path__env_production from './20251223_202224_dotenv_config_path__env_production';
 import * as migration_20251223_205001_dotenv_config_path__env_production from './20251223_205001_dotenv_config_path__env_production';
+import * as migration_20251227_183100 from './20251227_183100';
 
 export const migrations = [
   {
@@ -64,6 +65,11 @@ export const migrations = [
   {
     up: migration_20251223_205001_dotenv_config_path__env_production.up,
     down: migration_20251223_205001_dotenv_config_path__env_production.down,
-    name: '20251223_205001_dotenv_config_path__env_production'
+    name: '20251223_205001_dotenv_config_path__env_production',
+  },
+  {
+    up: migration_20251227_183100.up,
+    down: migration_20251227_183100.down,
+    name: '20251227_183100'
   },
 ];

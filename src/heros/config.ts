@@ -1,36 +1,9 @@
 import type { Field } from 'payload'
 
-import { linkGroup } from '@/fields/linkGroup'
-
 export const hero: Field = {
   name: 'hero',
   type: 'group',
   fields: [
-    {
-      name: 'type',
-      type: 'select',
-      defaultValue: 'mediumImpact',
-      label: 'Type',
-      options: [
-        {
-          label: 'None',
-          value: 'none',
-        },
-        {
-          label: 'High Impact',
-          value: 'highImpact',
-        },
-        {
-          label: 'Medium Impact',
-          value: 'mediumImpact',
-        },
-        {
-          label: 'Low Impact',
-          value: 'lowImpact',
-        },
-      ],
-      required: true,
-    },
     {
       name: 'textColor',
       type: 'select',
@@ -74,23 +47,12 @@ export const hero: Field = {
       type: 'text',
       label: 'Subtitle',
     },
-    linkGroup({
-      overrides: {
-        maxRows: 2,
-        admin: {
-          condition: (_, { type } = {}) => !['mediumImpact'].includes(type),
-        },
-      },
-    }),
 
     // Blur options
     {
       name: 'blur',
       type: 'group',
       label: 'Blur',
-      admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
-      },
       fields: [
         {
           name: 'enabled',
@@ -114,9 +76,6 @@ export const hero: Field = {
       name: 'overlay',
       type: 'group',
       label: 'Overlay',
-      admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
-      },
       fields: [
         {
           name: 'color',
@@ -140,9 +99,6 @@ export const hero: Field = {
     {
       name: 'media',
       type: 'upload',
-      admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
-      },
       relationTo: 'media',
       required: true,
     },

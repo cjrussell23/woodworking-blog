@@ -49,13 +49,18 @@ export default async function Post({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
+    <article className="pb-8">
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
-      <RenderHero {...post.hero} title={post.hero?.title || post.title} />
+      <RenderHero
+        {...post.hero}
+        title={post.hero?.title || post.title}
+        publishedAt={post.publishedAt}
+        categories={post.categories}
+      />
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">

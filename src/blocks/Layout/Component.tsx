@@ -50,10 +50,10 @@ export const LayoutBlock: React.FC<
     <div className={isPage ? 'container' : 'my-4'}>
       <div
         className={cn(
-          'flex',
+          'flex flex-col',
           {
-            'flex-row': direction === 'row',
-            'flex-col': direction === 'column',
+            'md:flex-row': direction === 'row',
+            'md:flex-col': direction === 'column',
             'flex-wrap': wrap,
             'flex-nowrap': !wrap,
             'justify-start': justifyContent === 'start',
@@ -81,14 +81,14 @@ export const LayoutBlock: React.FC<
                   <>
                     {media.mimeType?.includes('video') ? (
                       <VideoMedia
-                        videoClassName="border border-border rounded-[0.8rem]"
+                        videoClassName="border border-border rounded-md"
                         resource={media}
                         customWidth={width}
                         customHeight={height}
                       />
                     ) : (
                       <ImageMedia
-                        imgClassName="border border-border rounded-[0.8rem]"
+                        imgClassName="border border-border rounded-md w-full"
                         className="cursor-pointer"
                         resource={media}
                         customWidth={width}
