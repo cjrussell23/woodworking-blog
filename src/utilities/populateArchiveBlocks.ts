@@ -72,6 +72,7 @@ async function populateArchiveBlocksRecursive(
               slug: true,
               categories: true,
               meta: true,
+              publishedAt: true,
             },
           })
 

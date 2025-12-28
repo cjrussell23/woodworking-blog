@@ -40,12 +40,12 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card flex flex-col hover:border-accent',
+        'border border-border rounded-lg overflow-hidden bg-card flex flex-col hover:border-accent not-prose',
         className,
       )}
       ref={card.ref}
     >
-      <Link href={href} ref={link.ref}>
+      <Link href={href} ref={link.ref} className="no-underline">
         <div className="relative w-full aspect-video bg-black">
           {!metaImage && (
             <div className="flex items-center justify-center h-full text-gray-400">No image</div>
@@ -55,40 +55,43 @@ export const Card: React.FC<{
           )}
         </div>
       </Link>
-      <div className="p-2 flex flex-col flex-1">
-        <div className="text-xs">
-          {publishedAt && <p>{new Date(publishedAt).toLocaleDateString()}</p>}
-        </div>
+      <div className="p-4 flex flex-col flex-1 gap-3">
+        {publishedAt && (
+          <div className="text-xs text-muted-foreground">
+            {new Date(publishedAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </div>
+        )}
 
-        {titleToUse && <h3 className="text-lg font-semibold">{titleToUse}</h3>}
-        <Link href={href} ref={link.ref}>
-          {description && showDescription && (
-            <div className="text-sm">{description && <p>{sanitizedDescription}</p>}</div>
-          )}
-        </Link>
+        {titleToUse && <h3 className="text-lg font-semibold line-clamp-2 m-0">{titleToUse}</h3>}
+
+        {description && showDescription && (
+          <p className="text-sm text-muted-foreground line-clamp-3 m-0">{sanitizedDescription}</p>
+        )}
 
         {showCategories && hasCategories && (
-          <div className="text-sm mt-auto pt-4">
-            {showCategories && hasCategories && (
-              <div className="flex flex-wrap gap-1">
-                {categories?.map((category, index) => {
-                  if (typeof category === 'object') {
-                    const categoryHref = `/categories/${category.slug}`
-                    return (
-                      <Link
-                        key={index}
-                        href={categoryHref}
-                        className="border text-xs rounded-full bg-secondary border-border w-fit px-[6px] py-[2px] hover:bg-accent hover:text-white transition-colors"
-                      >
-                        {category.title}
-                      </Link>
-                    )
-                  }
+          <div className="mt-auto pt-2">
+            <div className="flex flex-wrap gap-1">
+              {categories?.map((category, index) => {
+                if (typeof category === 'object') {
+                  const categoryHref = `/categories/${category.slug}`
+                  return (
+                    <Link
+                      key={index}
+                      href={categoryHref}
+                      className="no-underline border text-xs rounded-full bg-secondary border-border w-fit px-[6px] py-[2px] hover:bg-accent hover:text-white transition-colors"
+                    >
+                      {category.title}
+                    </Link>
+                  )
+                }
 
-                  return null
-                })}
-              </div>
-            )}
+                return null
+              })}
+            </div>
           </div>
         )}
       </div>
