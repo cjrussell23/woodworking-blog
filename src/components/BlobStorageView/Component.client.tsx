@@ -6,8 +6,21 @@ import { ListBlobResultBlob } from '@vercel/blob'
 import React, { useEffect, useState } from 'react'
 import './styles.scss'
 
-type SortColumn = 'pathname' | 'size' | 'uploadedAt' | 'usedBy'
+interface MediaUsageInfo {
+  isUsed: boolean
+  usedIn: {
+    collection: string
+    count: number
+  }[]
+}
+
+interface MediaWithUsage extends Media {
+  usage?: MediaUsageInfo
+}
+
+type SortColumn = 'pathname' | 'size' | 'uploadedAt' | 'usedBy' | 'inUse'
 type SortDirection = 'asc' | 'desc'
+type MediaId = string | number
 
 type Status = {
   status: 'idle' | 'loading' | 'error'
@@ -16,7 +29,7 @@ type Status = {
 
 export const BlobStorageView: React.FC = () => {
   const [blobs, setBlobs] = useState<ListBlobResultBlob[]>([])
-  const [media, setMedia] = useState<Media[]>([])
+  const [media, setMedia] = useState<MediaWithUsage[]>([])
   const [status, setStatus] = useState<Status>({ status: 'idle' })
   const { user } = useAuth()
 
@@ -90,7 +103,7 @@ export const BlobStorageView: React.FC = () => {
         </button>
       </div>
       <div className="tables-container">
-        <MediaTable blobs={blobs} media={media} />
+        <MediaTable blobs={blobs} media={media} onRefresh={fetchBlobs} setStatus={setStatus} />
         <BlobTable blobs={blobs} media={media} />
       </div>
     </div>
@@ -185,9 +198,20 @@ function BlobTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Media
   )
 }
 
-function MediaTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Media[] }) {
+function MediaTable({
+  blobs,
+  media,
+  onRefresh,
+  setStatus,
+}: {
+  blobs: ListBlobResultBlob[]
+  media: MediaWithUsage[]
+  onRefresh: () => Promise<void>
+  setStatus: React.Dispatch<React.SetStateAction<Status>>
+}) {
   const [sortBy, setSortBy] = useState<SortColumn>('uploadedAt')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
+  const [selectedItems, setSelectedItems] = useState<Set<MediaId>>(new Set())
 
   const handleSort = (column: SortColumn) => {
     if (sortBy === column) {
@@ -195,6 +219,72 @@ function MediaTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Medi
     } else {
       setSortBy(column)
       setSortDirection('asc')
+    }
+  }
+
+  const toggleSelectAll = () => {
+    if (selectedItems.size === media.length) {
+      setSelectedItems(new Set())
+    } else {
+      setSelectedItems(new Set(media.map((m) => m.id)))
+    }
+  }
+
+  const toggleSelectItem = (id: MediaId) => {
+    const newSelected = new Set(selectedItems)
+    if (newSelected.has(id)) {
+      newSelected.delete(id)
+    } else {
+      newSelected.add(id)
+    }
+    setSelectedItems(newSelected)
+  }
+
+  const deleteSelectedMedia = async () => {
+    if (selectedItems.size === 0) return
+
+    const selectedArray = Array.from(selectedItems).map(String)
+    const selectedMedia = media.filter((m) => selectedItems.has(m.id))
+    const inUseItems = selectedMedia.filter((m) => m.usage?.isUsed)
+
+    let confirmMessage = `Are you sure you want to delete ${selectedItems.size} media item${selectedItems.size > 1 ? 's' : ''}?`
+    if (inUseItems.length > 0) {
+      confirmMessage += `\n\nWarning: ${inUseItems.length} item${inUseItems.length > 1 ? 's are' : ' is'} currently in use on your site!`
+    }
+
+    if (!confirm(confirmMessage)) {
+      return
+    }
+
+    try {
+      setStatus({ status: 'loading', message: 'Deleting media...' })
+      const response = await fetch('/api/media/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mediaIds: selectedArray }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to delete media')
+      }
+
+      const data = await response.json()
+      let message = `Deleted ${data.deletedMedia} media item${data.deletedMedia > 1 ? 's' : ''}`
+      if (data.errors.length > 0) {
+        message += ` (${data.errors.length} error${data.errors.length > 1 ? 's' : ''})`
+      }
+      setStatus({ status: 'idle', message })
+
+      // Clear selection and refresh
+      setSelectedItems(new Set())
+      await onRefresh()
+
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setStatus({ status: 'idle' })
+      }, 3000)
+    } catch (err) {
+      setStatus({ status: 'error', message: (err as Error).message })
     }
   }
 
@@ -218,6 +308,9 @@ function MediaTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Medi
         const blobB = blobs.find((blob) => blob.pathname === b.filename)
         comparison = (blobA ? 1 : 0) - (blobB ? 1 : 0)
         break
+      case 'inUse':
+        comparison = (a.usage?.isUsed ? 1 : 0) - (b.usage?.isUsed ? 1 : 0)
+        break
     }
 
     return sortDirection === 'asc' ? comparison : -comparison
@@ -233,10 +326,25 @@ function MediaTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Medi
 
   return (
     <div className="blob-storage-table">
-      <h2>Media Items ({media.length})</h2>
+      <div className="table-header">
+        <h2>Media Items ({media.length})</h2>
+        {selectedItems.size > 0 && (
+          <button onClick={deleteSelectedMedia} className="delete-selected-button">
+            Delete Selected ({selectedItems.size})
+          </button>
+        )}
+      </div>
       <table>
         <thead>
           <tr>
+            <th className="checkbox-column">
+              <input
+                type="checkbox"
+                checked={selectedItems.size === media.length && media.length > 0}
+                onChange={toggleSelectAll}
+                title="Select all"
+              />
+            </th>
             <th onClick={() => handleSort('pathname')} className="sortable">
               Filename {sortBy === 'pathname' && (sortDirection === 'asc' ? '↑' : '↓')}
             </th>
@@ -246,16 +354,30 @@ function MediaTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Medi
             <th onClick={() => handleSort('usedBy')} className="sortable">
               Blob {sortBy === 'usedBy' && (sortDirection === 'asc' ? '↑' : '↓')}
             </th>
+            <th onClick={() => handleSort('inUse')} className="sortable">
+              In Use {sortBy === 'inUse' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
           </tr>
         </thead>
         <tbody>
           {sortedMedia.map((item) => {
             const matchedBlob = blobs.find((blob) => blob.pathname === item.filename)
+            const usageText = item.usage?.isUsed
+              ? item.usage.usedIn.map((u) => `${u.collection} (${u.count})`).join(', ')
+              : 'Not used'
             return (
-              <tr key={item.id}>
+              <tr key={item.id} className={selectedItems.has(item.id) ? 'selected' : ''}>
+                <td className="checkbox-column">
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.has(item.id)}
+                    onChange={() => toggleSelectItem(item.id)}
+                  />
+                </td>
                 <td>{item.filename || 'N/A'}</td>
                 <td>{formatBytes(item.filesize)}</td>
                 <td>{matchedBlob ? '✓' : '✗'}</td>
+                <td title={usageText}>{item.usage?.isUsed ? '✓' : '✗'}</td>
               </tr>
             )
           })}

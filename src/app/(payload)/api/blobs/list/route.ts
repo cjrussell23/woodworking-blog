@@ -1,3 +1,4 @@
+import { checkMultipleMediaUsage } from '@/utilities/checkMediaUsage'
 import config from '@payload-config'
 import { list } from '@vercel/blob'
 import { NextResponse } from 'next/server'
@@ -15,9 +16,19 @@ export async function GET() {
       depth: 0,
     })
 
+    // Check usage for all media items
+    const mediaIds = mediaItems.map((item) => item.id)
+    const usageMap = await checkMultipleMediaUsage(payload, mediaIds)
+
+    // Add usage information to media items
+    const mediaWithUsage = mediaItems.map((item) => ({
+      ...item,
+      usage: usageMap.get(item.id) || { isUsed: false, usedIn: [] },
+    }))
+
     return NextResponse.json({
       blobs: blobs,
-      media: mediaItems,
+      media: mediaWithUsage,
     })
   } catch (error) {
     console.error('Error listing blobs:', error)
