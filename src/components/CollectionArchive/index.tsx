@@ -16,8 +16,6 @@ export const CollectionArchive: React.FC<Props> = (props) => {
     return dateB - dateA
   })
 
-  console.log('Sorted Posts:', sortedPosts)
-
   return (
     <div className={className}>
       <div>
