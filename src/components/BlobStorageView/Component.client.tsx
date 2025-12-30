@@ -1,8 +1,8 @@
 'use client'
 
 import { Media } from '@/payload-types'
-import { useAuth } from '@payloadcms/ui'
 import { ListBlobResultBlob } from '@vercel/blob'
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import './styles.scss'
 
@@ -31,7 +31,7 @@ export const BlobStorageView: React.FC = () => {
   const [blobs, setBlobs] = useState<ListBlobResultBlob[]>([])
   const [media, setMedia] = useState<MediaWithUsage[]>([])
   const [status, setStatus] = useState<Status>({ status: 'idle' })
-  const { user } = useAuth()
+  const [lightboxImage, setLightboxImage] = useState<{ url: string; alt: string } | null>(null)
 
   useEffect(() => {
     fetchBlobs()
@@ -103,14 +103,35 @@ export const BlobStorageView: React.FC = () => {
         </button>
       </div>
       <div className="tables-container">
-        <MediaTable blobs={blobs} media={media} onRefresh={fetchBlobs} setStatus={setStatus} />
-        <BlobTable blobs={blobs} media={media} />
+        <MediaTable
+          blobs={blobs}
+          media={media}
+          onRefresh={fetchBlobs}
+          setStatus={setStatus}
+          onViewImage={setLightboxImage}
+        />
+        <BlobTable blobs={blobs} media={media} onViewImage={setLightboxImage} />
       </div>
+      {lightboxImage && (
+        <Lightbox
+          imageUrl={lightboxImage.url}
+          alt={lightboxImage.alt}
+          onClose={() => setLightboxImage(null)}
+        />
+      )}
     </div>
   )
 }
 
-function BlobTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Media[] }) {
+function BlobTable({
+  blobs,
+  media,
+  onViewImage,
+}: {
+  blobs: ListBlobResultBlob[]
+  media: Media[]
+  onViewImage: (image: { url: string; alt: string }) => void
+}) {
   const [sortBy, setSortBy] = useState<SortColumn>('uploadedAt')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
 
@@ -166,6 +187,7 @@ function BlobTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Media
       <table>
         <thead>
           <tr>
+            <th>View</th>
             <th onClick={() => handleSort('pathname')} className="sortable">
               Pathname {sortBy === 'pathname' && (sortDirection === 'asc' ? '↑' : '↓')}
             </th>
@@ -183,8 +205,22 @@ function BlobTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Media
         <tbody>
           {sortedBlobs.map((blob) => {
             const matchedMedia = media.find((m) => m.filename === blob.pathname)
+            const isImage = matchedMedia?.mimeType?.startsWith('image/')
             return (
               <tr key={blob.url}>
+                <td className="view-column">
+                  {isImage ? (
+                    <button
+                      onClick={() => onViewImage({ url: blob.url, alt: blob.pathname })}
+                      className="view-button"
+                      title="View image"
+                    >
+                      View
+                    </button>
+                  ) : (
+                    <span className="no-view">—</span>
+                  )}
+                </td>
                 <td>{blob.pathname}</td>
                 <td>{formatBytes(blob.size)}</td>
                 <td>{formatDate(blob.uploadedAt.toString())}</td>
@@ -203,11 +239,13 @@ function MediaTable({
   media,
   onRefresh,
   setStatus,
+  onViewImage,
 }: {
   blobs: ListBlobResultBlob[]
   media: MediaWithUsage[]
   onRefresh: () => Promise<void>
   setStatus: React.Dispatch<React.SetStateAction<Status>>
+  onViewImage: (image: { url: string; alt: string }) => void
 }) {
   const [sortBy, setSortBy] = useState<SortColumn>('uploadedAt')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
@@ -345,6 +383,7 @@ function MediaTable({
                 title="Select all"
               />
             </th>
+            <th>View</th>
             <th onClick={() => handleSort('pathname')} className="sortable">
               Filename {sortBy === 'pathname' && (sortDirection === 'asc' ? '↑' : '↓')}
             </th>
@@ -365,6 +404,8 @@ function MediaTable({
             const usageText = item.usage?.isUsed
               ? item.usage.usedIn.map((u) => `${u.collection} (${u.count})`).join(', ')
               : 'Not used'
+            const isImage = item.mimeType?.startsWith('image/')
+            const imageUrl = matchedBlob?.url || (item.url as string)
             return (
               <tr key={item.id} className={selectedItems.has(item.id) ? 'selected' : ''}>
                 <td className="checkbox-column">
@@ -373,6 +414,21 @@ function MediaTable({
                     checked={selectedItems.has(item.id)}
                     onChange={() => toggleSelectItem(item.id)}
                   />
+                </td>
+                <td className="view-column">
+                  {isImage && imageUrl ? (
+                    <button
+                      onClick={() =>
+                        onViewImage({ url: imageUrl, alt: item.alt || item.filename || '' })
+                      }
+                      className="view-button"
+                      title="View image"
+                    >
+                      View
+                    </button>
+                  ) : (
+                    <span className="no-view">—</span>
+                  )}
                 </td>
                 <td>{item.filename || 'N/A'}</td>
                 <td>{formatBytes(item.filesize)}</td>
@@ -383,6 +439,44 @@ function MediaTable({
           })}
         </tbody>
       </table>
+    </div>
+  )
+}
+
+function Lightbox({
+  imageUrl,
+  alt,
+  onClose,
+}: {
+  imageUrl: string
+  alt: string
+  onClose: () => void
+}) {
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [onClose])
+
+  return (
+    <div className="lightbox" onClick={onClose}>
+      <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+        <button className="lightbox-close" onClick={onClose} title="Close (Esc)">
+          ✕
+        </button>
+        <Image
+          src={imageUrl}
+          alt={alt}
+          className="lightbox-image"
+          width={1920}
+          height={1080}
+          style={{ maxWidth: '90vw', maxHeight: '80vh', width: 'auto', height: 'auto' }}
+          unoptimized
+        />
+        <div className="lightbox-caption">{alt}</div>
+      </div>
     </div>
   )
 }

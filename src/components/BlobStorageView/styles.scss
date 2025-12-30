@@ -80,6 +80,37 @@
     padding: calc(var(--base) * 0.5);
   }
 
+  .view-column {
+    width: 60px;
+    text-align: center;
+    padding: calc(var(--base) * 0.5);
+  }
+
+  .view-button {
+    background: var(--theme-elevation-200);
+    border: 1px solid var(--theme-elevation-300);
+    border-radius: var(--border-radius-s);
+    padding: 2px 4px;
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    transition: all 150ms ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--theme-elevation-300);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .no-view {
+    color: var(--theme-elevation-500);
+    font-size: var(--font-size-base);
+  }
+
   .table-header {
     display: flex;
     justify-content: space-between;
@@ -379,4 +410,94 @@
     flex: 1;
     min-width: 0;
   }
+}
+
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: var(--base);
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: zoomIn 200ms ease;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.lightbox-close {
+  position: absolute;
+  top: calc(var(--base) * -1.5);
+  right: calc(var(--base) * -1.5);
+  color: white;
+  border: 2px solid var(--theme-elevation-700);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  transition: all 150ms ease;
+  z-index: 1;
+
+  &:hover {
+    background: var(--theme-error-500);
+    border-color: var(--theme-error-600);
+    transform: rotate(90deg) scale(1.1);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.95);
+  }
+}
+
+.lightbox-image {
+  border-radius: var(--border-radius-m);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  color: white;
+  padding: calc(var(--base) * 0.75) var(--base);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  margin-top: var(--base);
+  border-radius: var(--border-radius-s);
+  max-width: 90vw;
+  word-break: break-word;
 }
