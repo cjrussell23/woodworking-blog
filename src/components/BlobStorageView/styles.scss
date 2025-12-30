@@ -315,3 +315,17 @@
     font-weight: 600;
   }
 }
+
+.tables-container {
+  display: flex;
+  flex-direction: row;
+
+  @include large-break {
+    flex-direction: column;
+  }
+
+  .blob-storage-table {
+    flex: 1;
+    min-width: 0;
+  }
+}

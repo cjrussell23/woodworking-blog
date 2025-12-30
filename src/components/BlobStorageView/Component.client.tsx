@@ -89,8 +89,10 @@ export const BlobStorageView: React.FC = () => {
             : `Delete Orphaned Blobs (${orphanedBlobsCount})`}
         </button>
       </div>
-      <MediaTable blobs={blobs} media={media} />
-      <BlobTable blobs={blobs} media={media} />
+      <div className="tables-container">
+        <MediaTable blobs={blobs} media={media} />
+        <BlobTable blobs={blobs} media={media} />
+      </div>
     </div>
   )
 }
@@ -172,7 +174,7 @@ function BlobTable({ blobs, media }: { blobs: ListBlobResultBlob[]; media: Media
               <tr key={blob.url}>
                 <td>{blob.pathname}</td>
                 <td>{formatBytes(blob.size)}</td>
-                <td>{formatDate(blob.uploadedAt)}</td>
+                <td>{formatDate(blob.uploadedAt.toString())}</td>
                 <td>{matchedMedia ? '✓' : '✗'}</td>
               </tr>
             )
