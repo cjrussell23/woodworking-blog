@@ -21,6 +21,10 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
     objectFit = 'cover',
     gap = 'medium',
     enableLightbox = true,
+    maxWidth,
+    maxHeight,
+    inline,
+    inlineSide = 'left',
     className,
   } = props
 
@@ -59,6 +63,17 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
   const gridColClass = gridColumns
     ? gridColClasses[gridColumns as '2' | '3' | '4']
     : gridColClasses['3']
+
+  const containerStyle: React.CSSProperties = {
+    ...(maxWidth && { maxWidth: `${maxWidth}px` }),
+    ...(maxHeight && { maxHeight: `${maxHeight}px` }),
+  }
+
+  const inlineClasses = inline
+    ? inlineSide === 'left'
+      ? 'float-left mr-4 mb-4'
+      : 'float-right ml-4 mb-4'
+    : ''
 
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? images.length - 1 : prev - 1))
@@ -111,7 +126,7 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
   if (displayMode === 'carousel') {
     return (
       <>
-        <div className={cn('w-full', className)}>
+        <div className={cn('w-full mx-auto', inlineClasses, className)} style={containerStyle}>
           <div className="relative overflow-hidden rounded-lg">
             <div
               className="flex transition-transform duration-300 ease-in-out"
@@ -274,7 +289,10 @@ export const ImageGalleryBlock: React.FC<Props> = (props) => {
   // Grid Layout
   return (
     <>
-      <div className={cn('grid', gridColClass, gapClass, className)}>
+      <div
+        className={cn('grid mx-auto', gridColClass, gapClass, inlineClasses, className)}
+        style={containerStyle}
+      >
         {images.map((item, index) => {
           const image = typeof item === 'object' ? item : null
           return (

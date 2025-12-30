@@ -125,5 +125,50 @@ export const ImageGallery: Block = {
         description: 'Allow users to click images to view them in full size.',
       },
     },
+    {
+      name: 'maxWidth',
+      type: 'number',
+      label: 'Maximum Width (px)',
+      admin: {
+        description: 'Maximum width of the gallery container in pixels. Leave empty for no limit.',
+      },
+    },
+    {
+      name: 'maxHeight',
+      type: 'number',
+      label: 'Maximum Height (px)',
+      admin: {
+        description: 'Maximum height of the gallery container in pixels. Leave empty for no limit.',
+      },
+    },
+    {
+      name: 'inline',
+      type: 'checkbox',
+      label: 'Display Inline',
+      defaultValue: false,
+      admin: {
+        description: 'Float the gallery to one side with content wrapping around it.',
+      },
+    },
+    {
+      name: 'inlineSide',
+      type: 'select',
+      label: 'Inline Side',
+      defaultValue: 'left',
+      options: [
+        {
+          label: 'Left',
+          value: 'left',
+        },
+        {
+          label: 'Right',
+          value: 'right',
+        },
+      ],
+      admin: {
+        condition: (_, siblingData) => siblingData.inline === true,
+        description: 'Which side to float the gallery to.',
+      },
+    },
   ],
 }

@@ -13,6 +13,7 @@ import {
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { BannerBlock } from '@/blocks/Banner/Component'
+import { BreakBlock } from '@/blocks/Break/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
 import { ImageGalleryBlock } from '@/blocks/ImageGallery/Component'
@@ -22,6 +23,7 @@ import { YouTubeEmbedBlock } from '@/blocks/YouTubeEmbed/Component'
 import type {
   ArchiveBlock as ArchiveBlockProps,
   BannerBlock as BannerBlockProps,
+  BreakBlock as BreakBlockProps,
   CallToActionBlock as CTABlockProps,
   ImageBlock as ImageBlockProps,
   ImageGallery as ImageGalleryProps,
@@ -37,6 +39,7 @@ type NodeTypes =
       | ArchiveBlockProps
       | CTABlockProps
       | ImageBlockProps
+      | BreakBlockProps
       | BannerBlockProps
       | CodeBlockProps
       | ImageGalleryProps
@@ -59,6 +62,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   ...LinkJSXConverter({ internalDocToHref }),
   blocks: {
     archive: ({ node }) => <ArchiveBlock {...node.fields} />,
+    break: ({ node }) => <BreakBlock {...node.fields} />,
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     imageBlock: ({ node }) => (
       <ImageBlock

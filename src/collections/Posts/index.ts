@@ -14,6 +14,7 @@ import type { GroupField } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
+import { Break } from '../../blocks/Break/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Code } from '../../blocks/Code/config'
 import { ImageBlock } from '../../blocks/ImageBlock/config'
@@ -116,6 +117,7 @@ export const Posts: CollectionConfig<'posts'> = {
                     BlocksFeature({
                       blocks: [
                         Banner,
+                        Break,
                         CallToAction,
                         Code,
                         ImageGallery,

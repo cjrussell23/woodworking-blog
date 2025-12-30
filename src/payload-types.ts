@@ -1432,6 +1432,15 @@ export interface BannerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BreakBlock".
+ */
+export interface BreakBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'break';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -1510,6 +1519,22 @@ export interface ImageGallery {
    * Allow users to click images to view them in full size.
    */
   enableLightbox?: boolean | null;
+  /**
+   * Maximum width of the gallery container in pixels. Leave empty for no limit.
+   */
+  maxWidth?: number | null;
+  /**
+   * Maximum height of the gallery container in pixels. Leave empty for no limit.
+   */
+  maxHeight?: number | null;
+  /**
+   * Float the gallery to one side with content wrapping around it.
+   */
+  inline?: boolean | null;
+  /**
+   * Which side to float the gallery to.
+   */
+  inlineSide?: ('left' | 'right') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'imageGallery';
