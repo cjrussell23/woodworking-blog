@@ -30,6 +30,15 @@ export const Media: CollectionConfig = {
       //required: true,
     },
     {
+      name: 'filesize',
+      type: 'number',
+      admin: {
+        components: {
+          Cell: '/components/fields/FileSizeCell',
+        },
+      },
+    },
+    {
       name: 'caption',
       type: 'richText',
       editor: lexicalEditor({
