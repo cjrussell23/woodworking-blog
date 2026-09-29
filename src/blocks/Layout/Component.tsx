@@ -79,7 +79,9 @@ export const LayoutBlock: React.FC<
               <div
                 // size-fit collapses the YouTube embed (percentage-sized) to 0 width
                 className={
-                  contentType === 'youtubeVideo' ? 'w-full min-w-0 md:basis-1/2 md:grow' : 'size-fit'
+                  contentType === 'youtubeVideo'
+                    ? 'w-full min-w-0 md:basis-1/2 md:grow'
+                    : 'size-fit'
                 }
                 key={col.id || index}
               >
