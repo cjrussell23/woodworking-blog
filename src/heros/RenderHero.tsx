@@ -13,6 +13,7 @@ type RenderHeroProps = Page['hero'] & {
 
 export const RenderHero: React.FC<RenderHeroProps> = ({
   media,
+  mobileMedia,
   title,
   subtitle,
   textColor,
@@ -24,6 +25,7 @@ export const RenderHero: React.FC<RenderHeroProps> = ({
 }) => {
   const isPost = publishedAt !== undefined
   const postCategories = categories?.filter((cat): cat is Category => typeof cat === 'object')
+  const hasMobileMedia = Boolean(mobileMedia && typeof mobileMedia === 'object')
 
   const heightClass = {
     xsmall: 'h-44',
@@ -69,7 +71,7 @@ export const RenderHero: React.FC<RenderHeroProps> = ({
               {postCategories.map((category) => (
                 <Link
                   key={category.id}
-                  href={`/posts/category/${category.slug}`}
+                  href={`/categories/${category.slug}`}
                   className="border text-xs rounded-full text-foreground bg-secondary border-border w-fit px-[6px] py-[2px] hover:bg-accent hover:text-white transition-colors"
                 >
                   {category.title}
@@ -81,7 +83,22 @@ export const RenderHero: React.FC<RenderHeroProps> = ({
       </div>
       <div className={cn('select-none', heightClass)}>
         {media && typeof media === 'object' && (
-          <ImageMedia fill imgClassName={'-z-10'} priority resource={media} />
+          <ImageMedia
+            className={hasMobileMedia ? 'hidden md:block' : undefined}
+            fill
+            imgClassName={'-z-10'}
+            priority
+            resource={media}
+          />
+        )}
+        {mobileMedia && typeof mobileMedia === 'object' && (
+          <ImageMedia
+            className="md:hidden"
+            fill
+            imgClassName={'-z-10'}
+            priority
+            resource={mobileMedia}
+          />
         )}
         {/* Blur overlay */}
         {blur?.enabled !== false && (

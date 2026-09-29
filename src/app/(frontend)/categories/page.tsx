@@ -25,7 +25,7 @@ export default async function Page() {
       <PageClient />
       <div className="container mb-8">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>Categories</h1>
+          <h1>Topics</h1>
         </div>
       </div>
 
@@ -58,7 +58,7 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Categories',
-    description: 'Browse posts by category',
+    title: 'Topics',
+    description: 'Browse posts by topic',
   }
 }

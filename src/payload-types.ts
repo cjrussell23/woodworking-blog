@@ -171,6 +171,10 @@ export interface Page {
     };
     height?: ('xsmall' | 'small' | 'medium' | 'large' | 'xlarge') | null;
     media: number | Media;
+    /**
+     * Optional. Replaces the main image on small screens.
+     */
+    mobileMedia?: (number | null) | Media;
   };
   content: {
     root: {
@@ -288,6 +292,10 @@ export interface Post {
     };
     height?: ('xsmall' | 'small' | 'medium' | 'large' | 'xlarge') | null;
     media: number | Media;
+    /**
+     * Optional. Replaces the main image on small screens.
+     */
+    mobileMedia?: (number | null) | Media;
   };
   content: {
     root: {
@@ -853,6 +861,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         height?: T;
         media?: T;
+        mobileMedia?: T;
       };
   content?: T;
   meta?:
@@ -895,6 +904,7 @@ export interface PostsSelect<T extends boolean = true> {
             };
         height?: T;
         media?: T;
+        mobileMedia?: T;
       };
   content?: T;
   relatedPosts?: T;

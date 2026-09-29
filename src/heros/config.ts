@@ -130,6 +130,15 @@ export const hero: Field = {
       relationTo: 'media',
       required: true,
     },
+    {
+      name: 'mobileMedia',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Mobile Image',
+      admin: {
+        description: 'Optional. Replaces the main image on small screens.',
+      },
+    },
   ],
   label: false,
 }

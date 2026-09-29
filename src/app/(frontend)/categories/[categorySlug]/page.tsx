@@ -62,7 +62,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>{category.title}</h1>
-          <p>Posts in the {category.title} category</p>
+          <p>Posts in the {category.title} topic</p>
         </div>
       </div>
 
@@ -107,8 +107,8 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const category = categories.docs[0]
 
   return {
-    title: category ? `${category.title} - Categories` : 'Category',
-    description: category ? `Posts in the ${category.title} category` : '',
+    title: category ? `${category.title} - Topics` : 'Topic',
+    description: category ? `Posts in the ${category.title} topic` : '',
   }
 }
 

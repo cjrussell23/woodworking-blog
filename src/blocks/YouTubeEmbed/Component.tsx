@@ -27,6 +27,15 @@ const aspectRatioStyles = {
   '4:5': 'aspect-[4/5]',
 }
 
+// Caps tall/square videos to ~70vh on desktop by limiting width
+const aspectRatioMaxWidths = {
+  '16:9': '',
+  '4:3': '',
+  '1:1': 'md:max-w-[70vh]',
+  '9:16': 'md:max-w-[calc(70vh*9/16)]',
+  '4:5': 'md:max-w-[calc(70vh*4/5)]',
+}
+
 export const YouTubeEmbedBlock: React.FC<Props> = ({
   className,
   videoId,
@@ -59,10 +68,11 @@ export const YouTubeEmbedBlock: React.FC<Props> = ({
   const queryString = params.toString()
   const embedUrl = `https://www.youtube.com/embed/${videoId}${queryString ? `?${queryString}` : ''}`
   const aspectRatioClass = aspectRatioStyles[aspectRatio || '16:9'] || aspectRatioStyles['16:9']
+  const maxWidthClass = aspectRatioMaxWidths[aspectRatio || '16:9'] || ''
 
   return (
     <div className={[className, 'w-full'].filter(Boolean).join(' ')}>
-      <div className={`relative w-full ${aspectRatioClass}`}>
+      <div className={`relative w-full mx-auto ${aspectRatioClass} ${maxWidthClass}`.trim()}>
         <iframe
           src={embedUrl}
           title={title || 'YouTube video player'}
