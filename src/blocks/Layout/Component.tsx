@@ -76,7 +76,13 @@ export const LayoutBlock: React.FC<
             const { richText, media, videoId, contentType, width, height } = col
 
             return (
-              <div className="size-fit" key={col.id || index}>
+              <div
+                // size-fit collapses the YouTube embed (percentage-sized) to 0 width
+                className={
+                  contentType === 'youtubeVideo' ? 'w-full min-w-0 md:basis-1/2 md:grow' : 'size-fit'
+                }
+                key={col.id || index}
+              >
                 {contentType === 'media' && media && typeof media === 'object' && (
                   <>
                     {media.mimeType?.includes('video') ? (
@@ -99,7 +105,20 @@ export const LayoutBlock: React.FC<
                   </>
                 )}
                 {contentType === 'youtubeVideo' && videoId && (
-                  <YouTubeEmbedBlock videoId={videoId} blockType="youtubeEmbed" />
+                  <YouTubeEmbedBlock
+                    blockType="youtubeEmbed"
+                    videoId={videoId}
+                    title={col.title}
+                    aspectRatio={col.aspectRatio}
+                    autoplay={col.autoplay}
+                    controls={col.controls}
+                    loop={col.loop}
+                    mute={col.mute}
+                    modestBranding={col.modestBranding}
+                    showRelatedVideos={col.showRelatedVideos}
+                    startTime={col.startTime}
+                    endTime={col.endTime}
+                  />
                 )}
                 {contentType === 'richText' && richText && (
                   <RichText data={richText} enableGutter={false} />

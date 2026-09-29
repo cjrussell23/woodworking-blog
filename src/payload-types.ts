@@ -1590,6 +1590,43 @@ export interface LayoutBlock {
          * Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)
          */
         videoId?: string | null;
+        /**
+         * Optional title for accessibility
+         */
+        title?: string | null;
+        aspectRatio?: ('16:9' | '4:3' | '1:1' | '9:16' | '4:5') | null;
+        /**
+         * Video will play automatically when loaded (muted)
+         */
+        autoplay?: boolean | null;
+        /**
+         * Show player controls
+         */
+        controls?: boolean | null;
+        /**
+         * Video will restart when it ends
+         */
+        loop?: boolean | null;
+        /**
+         * Mute the video audio
+         */
+        mute?: boolean | null;
+        /**
+         * Minimize YouTube branding
+         */
+        modestBranding?: boolean | null;
+        /**
+         * Show related videos at the end
+         */
+        showRelatedVideos?: boolean | null;
+        /**
+         * Start playback at specific time
+         */
+        startTime?: number | null;
+        /**
+         * End playback at specific time
+         */
+        endTime?: number | null;
         richText?: {
           root: {
             type: string;

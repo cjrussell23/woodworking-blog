@@ -7,6 +7,11 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+import { youtubeOptionFields } from '@/blocks/YouTubeEmbed/config'
+
+const isYouTubeColumn = (_data: unknown, siblingData: { contentType?: string } | undefined) =>
+  siblingData?.contentType === 'youtubeVideo'
+
 const columnFields: Field[] = [
   {
     name: 'contentType',
@@ -59,11 +64,12 @@ const columnFields: Field[] = [
     type: 'text',
     label: 'YouTube Video ID',
     admin: {
-      condition: (_data, siblingData) => siblingData?.contentType === 'youtubeVideo',
+      condition: isYouTubeColumn,
       description:
         'Enter the YouTube video ID (e.g., "dQw4w9WgXcQ" from https://www.youtube.com/watch?v=dQw4w9WgXcQ)',
     },
   },
+  ...youtubeOptionFields(isYouTubeColumn),
   {
     name: 'richText',
     type: 'richText',
