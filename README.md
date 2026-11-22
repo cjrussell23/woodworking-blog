@@ -1,6 +1,6 @@
 # Woodworking Blog
 
-A woodworking blog I built for my dad, Robert C. Russell. He writes up his projects there: live-edge tables, turned bowls, epoxy river pieces, restored furniture. He runs the site himself through an admin panel, so he can publish a post with photo galleries and shop videos without touching code.
+A woodworking blog I built for my dad. He writes up his projects there: live-edge tables, turned bowls, epoxy river pieces, restored furniture. He runs the site himself through an admin panel, so he can publish a post with photo galleries and shop videos without touching code.
 
 **Live site:** https://robert-blog.vercel.app/home-page
 
@@ -21,7 +21,7 @@ The project started from Payload's official website template, which provides pag
 
 ### Image galleries with a lightbox
 
-![A post with a YouTube Short and an image gallery](docs/screenshots/post-gallery.jpg)
+![A post with an image gallery](docs/screenshots/post-gallery.jpg)
 
 The `ImageGallery` block ([`src/blocks/ImageGallery`](src/blocks/ImageGallery)) shows a set of photos as a 2–4 column grid or as a carousel, with a choice of aspect ratio, maximum size and optional captions. Clicking a photo opens a full-screen lightbox with an image counter, previous and next buttons, and keyboard navigation: ← and → move between photos and Esc closes it. Single images (`ImageBlock`) and images inside the `Layout` block open the same kind of full-screen view.
 
@@ -29,7 +29,7 @@ The `ImageGallery` block ([`src/blocks/ImageGallery`](src/blocks/ImageGallery)) 
 
 ### YouTube embeds
 
-Dad posts many of his projects as YouTube Shorts. The `YouTubeEmbed` block ([`src/blocks/YouTubeEmbed`](src/blocks/YouTubeEmbed)) takes a video ID and supports widescreen, standard, square and vertical (9:16, 4:5) aspect ratios. It also has options for autoplay, loop, mute, controls, related videos, and start and end times. The `Layout` block places a video, an image or rich text side by side in columns, which gives the video-beside-text layout in the screenshot above.
+My dad posts many of his projects as YouTube Shorts. The `YouTubeEmbed` block ([`src/blocks/YouTubeEmbed`](src/blocks/YouTubeEmbed)) takes a video ID and supports widescreen, standard, square and vertical (9:16, 4:5) aspect ratios. It also has options for autoplay, loop, mute, controls, related videos, and start and end times. The `Layout` block places a video, an image or rich text side by side in columns, so a Short can sit beside the write-up.
 
 ### A media manager that checks usage before deleting
 
