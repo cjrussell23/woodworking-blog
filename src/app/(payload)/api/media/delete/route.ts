@@ -1,17 +1,17 @@
-import config from '@payload-config'
+import { requireAdmin } from '@/utilities/requireAdmin'
 import { del } from '@vercel/blob'
 import { NextRequest, NextResponse } from 'next/server'
-import { getPayload } from 'payload'
 
 export async function POST(req: NextRequest) {
   try {
+    const { payload, unauthorized } = await requireAdmin(req.headers)
+    if (unauthorized) return unauthorized
+
     const { mediaIds } = await req.json()
 
     if (!Array.isArray(mediaIds) || mediaIds.length === 0) {
       return NextResponse.json({ error: 'Invalid media IDs' }, { status: 400 })
     }
-
-    const payload = await getPayload({ config })
 
     // Get media items to find their blob URLs
     const { docs: mediaItems } = await payload.find({
