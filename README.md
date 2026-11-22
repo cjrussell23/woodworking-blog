@@ -1,4 +1,4 @@
-# Robert's Blog
+# Woodworking Blog
 
 A woodworking blog I built for my dad, Robert C. Russell. He writes up his projects there: live-edge tables, turned bowls, epoxy river pieces, restored furniture. He runs the site himself through an admin panel, so he can publish a post with photo galleries and shop videos without touching code.
 
@@ -52,8 +52,8 @@ Its API routes live under [`src/app/(payload)/api`](src/app/(payload)/api) and o
 You'll need Node 22 and a Postgres database. Media uploads go to Vercel Blob, so you'll need a Blob read/write token to upload images.
 
 ```bash
-git clone https://github.com/cjrussell23/robert-blog.git
-cd robert-blog
+git clone https://github.com/cjrussell23/woodworking-blog.git
+cd woodworking-blog
 cp .env.example .env    # then fill in the values
 npm install
 npm run dev
@@ -69,3 +69,7 @@ Other useful scripts:
 | `npm run generate:importmap` | Regenerates the admin import map after adding admin components |
 | `npm run migrate:create` | Creates a migration from schema changes |
 | `npm run lint` | Runs ESLint |
+
+## License
+
+MIT. See [LICENSE](LICENSE).
