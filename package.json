@@ -1,7 +1,7 @@
 {
   "name": "robert-blog",
   "version": "1.0.0",
-  "description": "Website template for Payload",
+  "description": "Woodworking blog built with Payload CMS and Next.js",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -19,11 +19,7 @@
     "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation node -r dotenv/config node_modules/.bin/payload migrate:create dotenv_config_path=.env.production",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm package-lock.json && npm --ignore-workspace install",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
-    "db:compare-schemas": "tsx scripts/compare-schemas.ts",
-    "db:copy-data": "tsx scripts/copy-data.ts",
-    "db:clear-prod": "tsx scripts/clear-prod-database.ts",
-    "db:migrate-mediablock": "tsx scripts/migrate-mediablock-to-imageblock.ts"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
     "@payloadcms/admin-bar": "3.69.0",
