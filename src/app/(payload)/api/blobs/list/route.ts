@@ -1,13 +1,14 @@
 import { checkMultipleMediaUsage } from '@/utilities/checkMediaUsage'
-import config from '@payload-config'
+import { requireAdmin } from '@/utilities/requireAdmin'
 import { list } from '@vercel/blob'
-import { NextResponse } from 'next/server'
-import { getPayload } from 'payload'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const { payload, unauthorized } = await requireAdmin(req.headers)
+    if (unauthorized) return unauthorized
+
     const { blobs } = await list()
-    const payload = await getPayload({ config })
 
     // Get all media documents
     const { docs: mediaItems } = await payload.find({

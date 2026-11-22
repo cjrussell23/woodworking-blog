@@ -1,13 +1,14 @@
-import config from '@payload-config'
+import { requireAdmin } from '@/utilities/requireAdmin'
 import { del, list } from '@vercel/blob'
-import { NextResponse } from 'next/server'
-import { getPayload } from 'payload'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
+    const { payload, unauthorized } = await requireAdmin(req.headers)
+    if (unauthorized) return unauthorized
+
     // Get all blobs from Vercel Blob storage
     const { blobs } = await list()
-    const payload = await getPayload({ config })
 
     // Get all media documents
     const { docs: mediaItems } = await payload.find({
