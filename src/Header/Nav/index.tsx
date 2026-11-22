@@ -9,19 +9,21 @@ import { Logo } from '@/components/Logo/Logo'
 import { Menu, SearchIcon, X } from 'lucide-react'
 import Link from 'next/link'
 
-export const HeaderNav: React.FC<{ data: HeaderType; isScrolled: boolean }> = ({
-  data,
-  isScrolled,
-}) => {
+export const HeaderNav: React.FC<{
+  data: HeaderType
+  isScrolled: boolean
+  overLightBackground: boolean
+}> = ({ data, isScrolled, overLightBackground }) => {
   const navItems = data?.navItems || []
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const textColor = isScrolled
+  // White text is for hero images behind the header. Listing pages (posts,
+  // categories, search) have no hero, so they need dark text even unscrolled.
+  const useDarkText = isScrolled || overLightBackground
+  const textColor = useDarkText
     ? 'text-foreground '
     : 'text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]'
-  const iconColor = isScrolled
-    ? 'text-foreground '
-    : 'text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]'
+  const iconColor = textColor
 
   // Prevent scrolling when menu is open
   useEffect(() => {
